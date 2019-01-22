@@ -1,6 +1,10 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 import mysql.connector
 
+db_login = ""
+db_pass = ""
+db_host = ""
+
 
 class Ui_adminis(object):
     def setupadminisUi(self, adminis):
@@ -259,23 +263,32 @@ class Ui_adminis(object):
 
     def login(self):
 
+        global db_host, db_password
+
         if self.lineEdit.text() != "" and self.lineEdit_2.text() != "" and self.lineEdit_3.text() != "" and self.lineEdit_3.text().find(":") != -1:
             adress = self.lineEdit_3.text().split(":")
             password = adress[1]
             adress = adress[0]
 
-            cnx = mysql.connector.connect(user='root', password=password,
-                                      host=adress,
-                                      database='aiskom')
-            cursor = cnx.cursor()
+            try:
+
+                cnx = mysql.connector.connect(user='root', password=password,
+                                          host=adress,
+                                          database='aiskom')
+                cursor = cnx.cursor()
+
+                db_host = adress
+                db_password = password
+
+            except BaseException:
+                self.label_6.setText("<html><head/><body><p><span style=\" color:#ff0000;\">Проверьте правильность введеных данных</span></p></body></html>")
 
             try:
                 query = "select password from uspas where login= %s"
                 data = (self.lineEdit_2.text())
                 cursor.execute(query, data)
-
                 for item in cursor:
-                    if item[0] == password:
+                    if item[0] == data:
                         if self.lineEdit.text() == "admin":
                             self.setupadminisUi()
 
@@ -362,7 +375,7 @@ if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
     Authorization = QtWidgets.QMainWindow()
     ui = Ui_adminis()
-    ui.setupadminisUi(Authorization)
+    ui.setupLoginUi(Authorization)
     Authorization.show()
     sys.exit(app.exec_())
 
