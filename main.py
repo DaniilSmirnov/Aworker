@@ -91,17 +91,18 @@ class Ui_adminis(object):
         self.label_2.setText(_translate("adminis", "администратор"))
         self.pushButton_9.setText(_translate("adminis", "Сформировать отчет"))
         self.label_3.setText(_translate("adminis",
-                                        "<html><head/><body><p><span style=\" font-size:12pt;\">Список заказов:</span></p></body></html>"))
+                                        "<html><head/><body><p><span style=\" font-size:12pt;\">Список составленных договоров:</span></p></body></html>"))
         self.pushButton_4.setText(_translate("adminis", "Закрыть"))
-        self.label_6.setText(_translate("adminis", "Дата заказа"))
+        self.label_6.setText(_translate("adminis", "Товарный кредит"))
         self.pushButton_6.setText(_translate("adminis", "Добавить "))
-        self.label_5.setText(_translate("adminis", "Кол-во товара"))
-        self.label_4.setText(_translate("adminis", "Номер заказа"))
-        self.label_7.setText(_translate("adminis", "Стоимость"))
+        self.label_5.setText(_translate("adminis", "Дата заключения"))
+        self.label_4.setText(_translate("adminis", "Номер договора"))
+        self.label_7.setText(_translate("adminis", "Адрес склада"))
         self.pushButton.setText(_translate("adminis", "Открыть"))
         self.pushButton_2.setText(_translate("adminis", "Удалить"))
 
         self.pushButton_9.clicked.connect(self.openotchet)
+
 
     def openotchet(self):
         Authorization = QtWidgets.QDialog()
@@ -291,6 +292,8 @@ class Ui_adminis(object):
                     if item[0] == data:
                         if self.lineEdit.text() == "admin":
                             self.setupadminisUi()
+                        else:
+                            self.setuporderUi()
 
             except BaseException:
                 self.label_6.setText("<html><head/><body><p><span style=\" color:#ff0000;\">Проверьте правильность введеных данных</span></p></body></html>")
@@ -368,6 +371,125 @@ class Ui_adminis(object):
         self.pushButton_2.setText(_translate("sostavdog", "Убрать"))
         self.pushButton_3.setText(_translate("sostavdog", "Убрать"))
 
+    def setuporderUi(self, orderui):
+        orderui.setObjectName("adminis")
+        orderui.resize(741, 380)
+        self.centralwidget = QtWidgets.QWidget(orderui)
+        self.centralwidget.setObjectName("centralwidget")
+        self.gridLayout = QtWidgets.QGridLayout(self.centralwidget)
+        self.gridLayout.setObjectName("gridLayout")
+        self.label = QtWidgets.QLabel(self.centralwidget)
+        self.label.setObjectName("label")
+        self.gridLayout.addWidget(self.label, 0, 0, 1, 1)
+        self.label_2 = QtWidgets.QLabel(self.centralwidget)
+        self.label_2.setObjectName("label_2")
+        self.gridLayout.addWidget(self.label_2, 0, 1, 1, 4)
+        self.pushButton_9 = QtWidgets.QPushButton(self.centralwidget)
+        self.pushButton_9.setObjectName("pushButton_9")
+        self.gridLayout.addWidget(self.pushButton_9, 1, 3, 1, 3)
+        self.label_3 = QtWidgets.QLabel(self.centralwidget)
+        self.label_3.setObjectName("label_3")
+        self.gridLayout.addWidget(self.label_3, 1, 0, 1, 3)
+        self.pushButton_4 = QtWidgets.QPushButton(self.centralwidget)
+        self.pushButton_4.setObjectName("pushButton_4")
+        self.gridLayout.addWidget(self.pushButton_4, 1, 6, 1, 1)
+        self.label_6 = QtWidgets.QLabel(self.centralwidget)
+        self.label_6.setObjectName("label_6")
+        self.gridLayout.addWidget(self.label_6, 2, 3, 1, 1)
+        self.pushButton_6 = QtWidgets.QPushButton(self.centralwidget)
+        self.pushButton_6.setObjectName("pushButton_6")
+        self.gridLayout.addWidget(self.pushButton_6, 1, 7, 1, 1)
+        self.label_5 = QtWidgets.QLabel(self.centralwidget)
+        self.label_5.setObjectName("label_5")
+        self.gridLayout.addWidget(self.label_5, 2, 2, 1, 1)
+        self.label_4 = QtWidgets.QLabel(self.centralwidget)
+        self.label_4.setObjectName("label_4")
+        self.gridLayout.addWidget(self.label_4, 2, 0, 1, 2)
+        self.label_7 = QtWidgets.QLabel(self.centralwidget)
+        self.label_7.setObjectName("label_7")
+        self.gridLayout.addWidget(self.label_7, 2, 5, 1, 1)
+        self.scrollArea = QtWidgets.QScrollArea(self.centralwidget)
+        self.scrollArea.setWidgetResizable(True)
+        self.scrollArea.setObjectName("scrollArea")
+        self.scrollAreaWidgetContents = QtWidgets.QWidget()
+        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 721, 253))
+        self.scrollAreaWidgetContents.setObjectName("scrollAreaWidgetContents")
+        self.gridLayout_2 = QtWidgets.QGridLayout(self.scrollAreaWidgetContents)
+        self.gridLayout_2.setObjectName("gridLayout_2")
+        self.lineEdit = QtWidgets.QLineEdit(self.scrollAreaWidgetContents)
+        self.lineEdit.setObjectName("lineEdit")
+        self.gridLayout_2.addWidget(self.lineEdit, 0, 0, 1, 1)
+        self.lineEdit_2 = QtWidgets.QLineEdit(self.scrollAreaWidgetContents)
+        self.lineEdit_2.setObjectName("lineEdit_2")
+        self.gridLayout_2.addWidget(self.lineEdit_2, 0, 1, 1, 1)
+        self.lineEdit_3 = QtWidgets.QLineEdit(self.scrollAreaWidgetContents)
+        self.lineEdit_3.setObjectName("lineEdit_3")
+        self.gridLayout_2.addWidget(self.lineEdit_3, 0, 2, 1, 1)
+        self.lineEdit_4 = QtWidgets.QLineEdit(self.scrollAreaWidgetContents)
+        self.lineEdit_4.setObjectName("lineEdit_4")
+        self.gridLayout_2.addWidget(self.lineEdit_4, 0, 3, 1, 1)
+        self.pushButton = QtWidgets.QPushButton(self.scrollAreaWidgetContents)
+        self.pushButton.setObjectName("pushButton")
+        self.gridLayout_2.addWidget(self.pushButton, 0, 4, 1, 1)
+        self.pushButton_2 = QtWidgets.QPushButton(self.scrollAreaWidgetContents)
+        self.pushButton_2.setObjectName("pushButton_2")
+        self.gridLayout_2.addWidget(self.pushButton_2, 0, 5, 1, 1)
+        self.scrollArea.setWidget(self.scrollAreaWidgetContents)
+        self.gridLayout.addWidget(self.scrollArea, 3, 0, 1, 8)
+        orderui.setCentralWidget(self.centralwidget)
+        self.menubar = QtWidgets.QMenuBar(orderui)
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 741, 20))
+        self.menubar.setObjectName("menubar")
+        orderui.setMenuBar(self.menubar)
+        self.statusbar = QtWidgets.QStatusBar(orderui)
+        self.statusbar.setObjectName("statusbar")
+        orderui.setStatusBar(self.statusbar)
+
+        self.retranslateorderUi(orderui)
+        QtCore.QMetaObject.connectSlotsByName(orderui)
+
+    def retranslateorderUi(self, orderui):
+        _translate = QtCore.QCoreApplication.translate
+        orderui.setWindowTitle(_translate("orderui", "MainWindow"))
+        self.label.setText(_translate("orderui", "Вы авторизованы как:"))
+        self.label_2.setText(_translate("orderui", "администратор"))
+        self.pushButton_9.setText(_translate("orderui", "Сформировать отчет"))
+        self.label_3.setText(_translate("orderui", "<html><head/><body><p><span style=\" font-size:12pt;\">Список заказов:</span></p></body></html>"))
+        self.pushButton_4.setText(_translate("orderui", "Закрыть"))
+        self.label_6.setText(_translate("orderui", "Дата заказа"))
+        self.pushButton_6.setText(_translate("orderui", "Добавить "))
+        self.label_5.setText(_translate("orderui", "Кол-во товара"))
+        self.label_4.setText(_translate("orderui", "Номер заказа"))
+        self.label_7.setText(_translate("orderui", "Стоимость"))
+        self.pushButton.setText(_translate("orderui", "Открыть"))
+        self.pushButton_2.setText(_translate("orderui", "Удалить"))
+
+        cnx = mysql.connector.connect(user='root', password='i130813',
+                                      host='127.0.0.1',
+                                      database='aiskom')
+        cursor = cnx.cursor()
+        query = "select id_prodazh, date from prodazha;"
+
+        cursor.execute(query)
+
+        k = 0
+        j = 0
+        for item in query:
+            for value in item:
+                if k == 0:
+                    line_item = QtWidgets.QLabel(str(value))
+                    self.scrollAreaWidgetContents.addWidget(line_item, j, k, 1, 1)
+                    k += 1
+                    continue
+                line_item = QtWidgets.QLineEdit(str(value))
+                self.scrollAreaWidgetContents.addWidget(line_item, j, k, 1, 1)
+
+                but_item = QtWidgets.QPushButton("Открыть")
+                self.scrollAreaWidgetContents.addWidget(but_item, j, j+1, 1, 1)
+                but_item = QtWidgets.QPushButton("Удалить")
+                self.scrollAreaWidgetContents.addWidget(but_item, j, j+2, 1, 1)
+                #but_item.clicked.connect(lambda state, row=i: delete_work(row))
+
 
 if __name__ == "__main__":
     import sys
@@ -375,7 +497,7 @@ if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
     Authorization = QtWidgets.QMainWindow()
     ui = Ui_adminis()
-    ui.setupLoginUi(Authorization)
+    ui.setuporderUi(Authorization)
     Authorization.show()
     sys.exit(app.exec_())
 
