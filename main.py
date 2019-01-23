@@ -81,7 +81,7 @@ class Ui_MainWindow(object):
         self.statusbar.setObjectName("statusbar")
         adminis.setStatusBar(self.statusbar)
 
-        self.retranslateadminisUi(adminis)
+        #self.retranslateadminisUi(adminis)
         QtCore.QMetaObject.connectSlotsByName(adminis)
 
     def retranslateadminisUi(self, adminis):
@@ -102,6 +102,24 @@ class Ui_MainWindow(object):
         self.pushButton_2.setText(_translate("adminis", "Удалить"))
 
         self.pushButton_9.clicked.connect(self.openotchet)
+
+        global db_login
+
+        cnx = mysql.connector.connect(user='root', password='i130813',
+                                      host='127.0.0.1',
+                                      database='aiskom')
+        cursor = cnx.cursor()
+
+        query = "select * from prodav where id_prodav=%s"
+        data = (db_login,)
+        cursor.execute(query, data)
+
+        j = 0
+        k = 0
+        #for item in query:
+         #   for value in item:
+
+
 
     def openotchet(self):
         Authorization = QtWidgets.QDialog()
@@ -196,51 +214,52 @@ class Ui_MainWindow(object):
     def setupLoginUi(self, oshibka):
         oshibka.setObjectName("oshibka")
         oshibka.resize(290, 233)
-        self.verticalLayout = QtWidgets.QVBoxLayout(oshibka)
-        self.verticalLayout.setObjectName("verticalLayout")
+        self.verticalloginLayout = QtWidgets.QVBoxLayout(oshibka)
+        self.verticalloginLayout.setObjectName("verticalLayout")
         self.label_3 = QtWidgets.QLabel(oshibka)
         self.label_3.setObjectName("label_3")
-        self.verticalLayout.addWidget(self.label_3)
+        self.verticalloginLayout.addWidget(self.label_3)
         self.label = QtWidgets.QLabel(oshibka)
         self.label.setObjectName("label")
-        self.verticalLayout.addWidget(self.label)
+        self.verticalloginLayout.addWidget(self.label)
         self.label_4 = QtWidgets.QLabel(oshibka)
         self.label_4.setObjectName("label_4")
-        self.verticalLayout.addWidget(self.label_4)
+        self.verticalloginLayout.addWidget(self.label_4)
         self.lineEdit = QtWidgets.QLineEdit(oshibka)
         self.lineEdit.setObjectName("lineEdit")
-        self.verticalLayout.addWidget(self.lineEdit)
+        self.verticalloginLayout.addWidget(self.lineEdit)
         self.label_2 = QtWidgets.QLabel(oshibka)
         self.label_2.setObjectName("label_2")
-        self.verticalLayout.addWidget(self.label_2)
+        self.verticalloginLayout.addWidget(self.label_2)
         self.label_5 = QtWidgets.QLabel(oshibka)
         self.label_5.setObjectName("label_5")
-        self.verticalLayout.addWidget(self.label_5)
+        self.verticalloginLayout.addWidget(self.label_5)
         self.lineEdit_2 = QtWidgets.QLineEdit(oshibka)
         self.lineEdit_2.setMouseTracking(False)
         self.lineEdit_2.setTabletTracking(False)
         self.lineEdit_2.setContextMenuPolicy(QtCore.Qt.DefaultContextMenu)
         self.lineEdit_2.setToolTip("")
         self.lineEdit_2.setAutoFillBackground(False)
-        self.lineEdit_2.setInputMethodHints(QtCore.Qt.ImhHiddenText|QtCore.Qt.ImhNoAutoUppercase|QtCore.Qt.ImhNoPredictiveText|QtCore.Qt.ImhSensitiveData)
+        self.lineEdit_2.setInputMethodHints(
+        QtCore.Qt.ImhHiddenText | QtCore.Qt.ImhNoAutoUppercase | QtCore.Qt.ImhNoPredictiveText | QtCore.Qt.ImhSensitiveData)
         self.lineEdit_2.setEchoMode(QtWidgets.QLineEdit.Password)
         self.lineEdit_2.setObjectName("lineEdit_2")
-        self.verticalLayout.addWidget(self.lineEdit_2)
+        self.verticalloginLayout.addWidget(self.lineEdit_2)
         self.label_8 = QtWidgets.QLabel(oshibka)
         self.label_8.setObjectName("label_8")
-        self.verticalLayout.addWidget(self.label_8)
+        self.verticalloginLayout.addWidget(self.label_8)
         self.label_7 = QtWidgets.QLabel(oshibka)
         self.label_7.setObjectName("label_7")
-        self.verticalLayout.addWidget(self.label_7)
+        self.verticalloginLayout.addWidget(self.label_7)
         self.lineEdit_3 = QtWidgets.QLineEdit(oshibka)
         self.lineEdit_3.setObjectName("lineEdit_3")
-        self.verticalLayout.addWidget(self.lineEdit_3)
+        self.verticalloginLayout.addWidget(self.lineEdit_3)
         self.pushButton = QtWidgets.QPushButton(oshibka)
         self.pushButton.setObjectName("pushButton")
-        self.verticalLayout.addWidget(self.pushButton)
+        self.verticalloginLayout.addWidget(self.pushButton)
         self.label_6 = QtWidgets.QLabel(oshibka)
         self.label_6.setObjectName("label_6")
-        self.verticalLayout.addWidget(self.label_6)
+        self.verticalloginLayout.addWidget(self.label_6)
 
         self.retranslateLoginUi(oshibka)
         QtCore.QMetaObject.connectSlotsByName(oshibka)
@@ -250,13 +269,9 @@ class Ui_MainWindow(object):
         oshibka.setWindowTitle(_translate("oshibka", "Авторизация"))
         self.label_3.setText(_translate("oshibka", "АИС для БД ООО \"Компьютер\""))
         self.label.setText(_translate("oshibka", "Логин:"))
-        self.label_4.setText(_translate("oshibka", "<html><head/><body><p><span style=\" color:#ff0000;\">*</span></p></body></html>"))
         self.label_2.setText(_translate("oshibka", "Пароль:"))
-        self.label_5.setText(_translate("oshibka", "<html><head/><body><p><span style=\" color:#ff0000;\">*</span></p></body></html>"))
-        self.label_8.setText(_translate("oshibka", "<html><head/><body><p><span style=\" color:#ff0000;\">*</span></p></body></html>"))
         self.label_7.setText(_translate("oshibka", "Адрес:"))
         self.pushButton.setText(_translate("oshibka", "Войти"))
-        self.label_6.setToolTip(_translate("oshibka", "<html><head/><body><p><span style=\" color:#aa0000;\">Rkfcc</span></p></body></html>"))
         self.label_6.setText(_translate("oshibka", ""))
 
         self.pushButton.clicked.connect(self.login)
@@ -444,7 +459,7 @@ class Ui_MainWindow(object):
         self.statusbar.setObjectName("statusbar")
         orderui.setStatusBar(self.statusbar)
 
-       # self.retranslateorderUi(orderui)
+        self.retranslateorderUi(orderui)
         QtCore.QMetaObject.connectSlotsByName(orderui)
 
     def retranslateorderUi(self, orderui):
@@ -485,7 +500,8 @@ class Ui_MainWindow(object):
             for value in item:
                 self.label.setText("Магазин: " + str(value))
 
-        query = "select * from zakaz"
+        query = "select id_zakaz,date_zakaz from zakaz where id_prodav=%s;"
+        data = (db_login, )
 
         j = 0
         k = 0
@@ -503,12 +519,15 @@ class Ui_MainWindow(object):
                 but_item = QtWidgets.QPushButton("Удалить")
                 self.scrollAreaWidgetContents.addWidget(but_item, j, k + 2, 1, 1)
                 but_item.clicked.connect(lambda state, row=id: delete_sell(row))
+                but_item = QtWidgets.QPushButton("Удалить")
+                self.scrollAreaWidgetContents.addWidget(but_item, j, k + 2, 1, 1)
+                but_item.clicked.connect(lambda state, row=id: delete_sell(row))
             k += 1
             if k % 2 == 0:
                 j += 1
                 k = 0
 
-        def delete_sell(row):
+        def delete_sell(id):
             data = (id)
             query = "delete from zakaz where id_zakaz=%s;"
 
@@ -785,9 +804,9 @@ if __name__ == "__main__":
     import sys
 
     app = QtWidgets.QApplication(sys.argv)
-    Authorization = QtWidgets.QMainWindow()
+    Authorization = QtWidgets.QDialog()
     ui = Ui_MainWindow()
-    ui.setuporderUi(Authorization)
+    ui.setupLoginUi(Authorization)
     Authorization.show()
     sys.exit(app.exec_())
 
