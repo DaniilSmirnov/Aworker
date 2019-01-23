@@ -496,6 +496,9 @@ class Ui_MainWindow(object):
                 i += 1
                 k = 0
 
+    def add_check(self):
+
+
     def setupcheckUi(self, checkui):
         checkui.setObjectName("adminis")
         checkui.resize(741, 380)
@@ -597,6 +600,8 @@ class Ui_MainWindow(object):
         self.pushButton.setText(_translate("checkui", "Открыть"))
         self.pushButton_2.setText(_translate("checkui", "Удалить"))
 
+        self.pushButton_6.clicked.connect(self.openaddcheckui)
+
         query = "select id_prodazh, date from prodazha;"
 
         cursor.execute(query)
@@ -639,6 +644,75 @@ class Ui_MainWindow(object):
 
             cursor.execute(query, data)
             cnx.commit()
+
+    def setupaddcheckUi(self, administrator):
+        administrator.setObjectName("administrator")
+        administrator.resize(260, 211)
+        self.centralwidget = QtWidgets.QWidget(administrator)
+        self.centralwidget.setObjectName("centralwidget")
+        self.verticalLayout = QtWidgets.QVBoxLayout(self.centralwidget)
+        self.verticalLayout.setObjectName("verticalLayout")
+        self.lineEdit = QtWidgets.QLineEdit(self.centralwidget)
+        self.lineEdit.setObjectName("lineEdit")
+        self.verticalLayout.addWidget(self.lineEdit)
+        self.lineEdit_2 = QtWidgets.QLineEdit(self.centralwidget)
+        self.lineEdit_2.setObjectName("lineEdit_2")
+        self.verticalLayout.addWidget(self.lineEdit_2)
+        self.lineEdit_3 = QtWidgets.QLineEdit(self.centralwidget)
+        self.lineEdit_3.setObjectName("lineEdit_3")
+        self.verticalLayout.addWidget(self.lineEdit_3)
+        self.lineEdit_4 = QtWidgets.QLineEdit(self.centralwidget)
+        self.lineEdit_4.setObjectName("lineEdit_4")
+        self.verticalLayout.addWidget(self.lineEdit_4)
+        self.pushButton = QtWidgets.QPushButton(self.centralwidget)
+        self.pushButton.setObjectName("pushButton")
+        self.verticalLayout.addWidget(self.pushButton)
+        self.pushButton_2 = QtWidgets.QPushButton(self.centralwidget)
+        self.pushButton_2.setObjectName("pushButton_2")
+        self.verticalLayout.addWidget(self.pushButton_2)
+        administrator.setCentralWidget(self.centralwidget)
+        self.menubar = QtWidgets.QMenuBar(administrator)
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 260, 20))
+        self.menubar.setObjectName("menubar")
+        administrator.setMenuBar(self.menubar)
+        self.statusbar = QtWidgets.QStatusBar(administrator)
+        self.statusbar.setObjectName("statusbar")
+        administrator.setStatusBar(self.statusbar)
+
+        self.retranslateaddcheckUi(administrator)
+        QtCore.QMetaObject.connectSlotsByName(administrator)
+
+    def retranslateaddcheckUi(self, administrator):
+        _translate = QtCore.QCoreApplication.translate
+        administrator.setWindowTitle(_translate("administrator", "Dialog"))
+        self.pushButton.setText(_translate("administrator", "Ок"))
+        self.pushButton_2.setText(_translate("administrator", "Отмена"))
+
+        self.pushButton.clicked.connect(self.addcheck)
+        self.pushButton_2.clicked.connect(self.close)
+
+    def addcheck(self):
+
+        global db_login
+
+        cnx = mysql.connector.connect(user='root', password='i130813',
+                                      host='127.0.0.1',
+                                      database='aiskom')
+        cursor = cnx.cursor()
+
+        if self.lineEdit.text() != "" and self.lineEdit_2.text() != "" and self.lineEdit_3.text() != "" and self.lineEdit_4.text() != "":
+            data = (self.lineEdit.text(), self.lineEdit_2.text(), self.lineEdit_3.text(), self.lineEdit_4.text())
+            query = " insert into prodazha(id_prodav, date, day_week) values(%s, %s, %s);"
+            cursor.execute(query, data)
+            cnx.commit()
+
+
+    def openaddcheckui(self):
+        Authorization = QtWidgets.QDialog()
+        ui = Ui_MainWindow()
+        ui.setupaddcheckUi(Authorization)
+        Authorization.exec_()
+
 
     def setupcheckviewUi(self, administrator):
         administrator.setObjectName("administrator")
