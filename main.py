@@ -120,7 +120,6 @@ class Ui_MainWindow(object):
          #   for value in item:
 
 
-
     def openotchet(self):
         Authorization = QtWidgets.QDialog()
         ui = Ui_MainWindow()
@@ -478,6 +477,8 @@ class Ui_MainWindow(object):
         self.pushButton.setText(_translate("orderui", "Открыть"))
         self.pushButton_2.setText(_translate("orderui", "Удалить"))
 
+        self.pushButton_6.clicked.connect(self.addorderui)
+
         global db_login
 
         cnx = mysql.connector.connect(user='root', password='i130813',
@@ -519,9 +520,9 @@ class Ui_MainWindow(object):
                 but_item = QtWidgets.QPushButton("Удалить")
                 self.scrollAreaWidgetContents.addWidget(but_item, j, k + 2, 1, 1)
                 but_item.clicked.connect(lambda state, row=id: delete_sell(row))
-                but_item = QtWidgets.QPushButton("Удалить")
+                but_item = QtWidgets.QPushButton("Открыть")
                 self.scrollAreaWidgetContents.addWidget(but_item, j, k + 2, 1, 1)
-                but_item.clicked.connect(lambda state, row=id: delete_sell(row))
+                but_item.clicked.connect(lambda state, row=id: open_sell(row))
             k += 1
             if k % 2 == 0:
                 j += 1
@@ -533,6 +534,68 @@ class Ui_MainWindow(object):
 
             cursor.execute(query, data)
             cnx.commit()
+
+        def open_sell(id):
+            print(1)
+
+    def addorderui(self):
+        Authorization = QtWidgets.QDialog()
+        ui = Ui_MainWindow()
+        ui.setupaddorderUi(Authorization)
+        Authorization.exec_()
+
+    def addorder(self):
+        global db_login
+
+        cnx = mysql.connector.connect(user='root', password='i130813',
+                                      host='127.0.0.1',
+                                      database='aiskom')
+        cursor = cnx.cursor()
+        if self.lineEdit.text() != "" and self.lineEdit_2.text() != "":
+            data = (self.lineEdit.text(), self.lineEdit_2.text())
+            query = "insert into zakaz(date_zakaz,id_prodav) values(%s, %s);"
+            cursor.execute(query, data)
+            cnx.commit()
+
+    def setupaddorderUi(self, administrator):
+        administrator.setObjectName("administrator")
+        administrator.resize(260, 211)
+        self.centralwidget = QtWidgets.QWidget(administrator)
+        self.centralwidget.setObjectName("centralwidget")
+        self.verticalLayout = QtWidgets.QVBoxLayout(self.centralwidget)
+        self.verticalLayout.setObjectName("verticalLayout")
+        self.lineEdit = QtWidgets.QLineEdit(self.centralwidget)
+        self.lineEdit.setObjectName("lineEdit")
+        self.verticalLayout.addWidget(self.lineEdit)
+        self.lineEdit_2 = QtWidgets.QLineEdit(self.centralwidget)
+        self.lineEdit_2.setObjectName("lineEdit_2")
+        self.verticalLayout.addWidget(self.lineEdit_2)
+        self.pushButton = QtWidgets.QPushButton(self.centralwidget)
+        self.pushButton.setObjectName("pushButton")
+        self.verticalLayout.addWidget(self.pushButton)
+        self.pushButton_2 = QtWidgets.QPushButton(self.centralwidget)
+        self.pushButton_2.setObjectName("pushButton_2")
+        self.verticalLayout.addWidget(self.pushButton_2)
+        administrator.setCentralWidget(self.centralwidget)
+        self.menubar = QtWidgets.QMenuBar(administrator)
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 260, 20))
+        self.menubar.setObjectName("menubar")
+        administrator.setMenuBar(self.menubar)
+        self.statusbar = QtWidgets.QStatusBar(administrator)
+        self.statusbar.setObjectName("statusbar")
+        administrator.setStatusBar(self.statusbar)
+
+        self.retranslateaddcheckUi(administrator)
+        QtCore.QMetaObject.connectSlotsByName(administrator)
+
+    def retranslateaddorderUi(self, administrator):
+        _translate = QtCore.QCoreApplication.translate
+        administrator.setWindowTitle(_translate("administrator", "Dialog"))
+        self.pushButton.setText(_translate("administrator", "Ок"))
+        self.pushButton_2.setText(_translate("administrator", "Отмена"))
+
+        self.pushButton.clicked.connect(self.addcheck)
+        self.pushButton_2.clicked.connect(self.close)
 
     def setupcheckUi(self, checkui):
         checkui.setObjectName("adminis")
