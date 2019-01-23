@@ -6,7 +6,7 @@ db_pass = ""
 db_host = ""
 
 
-class Ui_adminis(object):
+class Ui_MainWindow(object):
     def setupadminisUi(self, adminis):
         adminis.setObjectName("adminis")
         adminis.resize(741, 380)
@@ -106,7 +106,7 @@ class Ui_adminis(object):
 
     def openotchet(self):
         Authorization = QtWidgets.QDialog()
-        ui = Ui_adminis()
+        ui = Ui_MainWindow()
         ui.setupUi(Authorization)
         Authorization.exec_()
 
@@ -564,7 +564,7 @@ class Ui_adminis(object):
     def retranslatecheckUi(self, checkui):
         _translate = QtCore.QCoreApplication.translate
         checkui.setWindowTitle(_translate("checkui", "MainWindow"))
-        self.label.setText(_translate("checkui", "Вы авторизованы как:"))
+        self.label.setText(_translate("checkui", ""))
 
         global db_login
 
@@ -574,11 +574,19 @@ class Ui_adminis(object):
         cursor = cnx.cursor()
 
         query = "select FIO from prodav where id_prodav=%s"
-        data = (db_login)
+        data = (db_login, )
         cursor.execute(query, data)
 
-        for item in cursor:
-            self.label_2.setText(str(item))
+        for item in query:
+            for value in item:
+                self.label.setText("Вы авторизованы как: " + str(value))
+
+        query = "select name from torgtoch,prodav where id_prodav=%s and torgtoch.id_torgtoch=prodav.id_torgtoch;"
+        data = (db_login, )
+        cursor.execute(query, data)
+        for item in query:
+            for value in item:
+                self.label.setText("Магазин: " + str(value))
 
         self.pushButton_9.setText(_translate("checkui", "Сформировать отчет"))
         self.label_3.setText(_translate("checkui", "<html><head/><body><p><span style=\" font-size:12pt;\">Список чеков:</span></p></body></html>"))
@@ -620,7 +628,10 @@ class Ui_adminis(object):
                 k = 0
 
         def open_check(id):
-            print(1)
+            Authorization = QtWidgets.QDialog()
+            ui = Ui_MainWindow()
+            ui.setupcheckUi(Authorization)
+            Authorization.exec_()
 
         def delete_check(id):
             data = (id)
@@ -629,13 +640,65 @@ class Ui_adminis(object):
             cursor.execute(query, data)
             cnx.commit()
 
+    def setupcheckviewUi(self, administrator):
+        administrator.setObjectName("administrator")
+        administrator.resize(260, 211)
+        self.centralwidget = QtWidgets.QWidget(administrator)
+        self.centralwidget.setObjectName("centralwidget")
+        self.verticalLayout = QtWidgets.QVBoxLayout(self.centralwidget)
+        self.verticalLayout.setObjectName("verticalLayout")
+        self.label = QtWidgets.QLabel(self.centralwidget)
+        self.label.setObjectName("label")
+        self.verticalLayout.addWidget(self.label)
+        self.pushButton = QtWidgets.QPushButton(self.centralwidget)
+        self.pushButton.setObjectName("pushButton")
+        self.verticalLayout.addWidget(self.pushButton)
+        administrator.setCentralWidget(self.centralwidget)
+        self.menubar = QtWidgets.QMenuBar(administrator)
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 260, 20))
+        self.menubar.setObjectName("menubar")
+        administrator.setMenuBar(self.menubar)
+        self.statusbar = QtWidgets.QStatusBar(administrator)
+        self.statusbar.setObjectName("statusbar")
+        administrator.setStatusBar(self.statusbar)
+
+        self.retranslatecheckviewUi(administrator)
+        QtCore.QMetaObject.connectSlotsByName(administrator)
+
+    def retranslatecheckviewUi(self, administrator):
+        _translate = QtCore.QCoreApplication.translate
+        administrator.setWindowTitle(_translate("administrator", "Dialog"))
+        self.pushButton.setText(_translate("administrator", "Ок"))
+
+        global db_login
+
+        cnx = mysql.connector.connect(user='root', password='i130813',
+                                      host='127.0.0.1',
+                                      database='aiskom')
+        cursor = cnx.cursor()
+
+        query = "select * from prodazha;"
+
+        cursor.execute(query)
+
+        k = 0
+        for item in query:
+            for value in item:
+                if k == 0:
+                    line_item = QtWidgets.QLabel(str(value))
+                    self.scrollAreaWidgetContents.addWidget(line_item)
+                    k += 1
+                    continue
+                line_item = QtWidgets.QLineEdit(str(value))
+                self.scrollAreaWidgetContents.addWidget(line_item)
+
 
 if __name__ == "__main__":
     import sys
 
     app = QtWidgets.QApplication(sys.argv)
     Authorization = QtWidgets.QMainWindow()
-    ui = Ui_adminis()
+    ui = Ui_MainWindow()
     ui.setupcheckUi(Authorization)
     Authorization.show()
     sys.exit(app.exec_())
