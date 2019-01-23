@@ -600,6 +600,7 @@ class Ui_adminis(object):
             for value in item:
                 if k == 0:
                     line_item = QtWidgets.QLabel(str(value))
+                    id = str(value)
                     self.scrollAreaWidgetContents.addWidget(line_item, j, k, 1, 1)
                     k += 1
                     continue
@@ -608,20 +609,26 @@ class Ui_adminis(object):
 
                 but_item = QtWidgets.QPushButton("Открыть")
                 self.scrollAreaWidgetContents.addWidget(but_item, j, k + 1, 1, 1)
-                but_item.clicked.connect(lambda state, row=i: open_check(row))
+                but_item.clicked.connect(lambda state, row=id: open_check(row))
                 but_item = QtWidgets.QPushButton("Удалить")
                 self.scrollAreaWidgetContents.addWidget(but_item, j, k + 2, 1, 1)
-                but_item.clicked.connect(lambda state, row=i: delete_check(row))
+                but_item.clicked.connect(lambda state, row=id: delete_check(row))
             k += 1
             if k % 2 == 0:
                 j += 1
                 i += 1
                 k = 0
 
-        def open_check(row):
+        def open_check(id):
             print(1)
-        def delete_check(row):
-            print(1)
+
+        def delete_check(id):
+            data = (id)
+            query = "delete from prodazha where id_prodazh=%s;"
+
+            cursor.execute(query, data)
+            cnx.commit()
+
 
 if __name__ == "__main__":
     import sys
