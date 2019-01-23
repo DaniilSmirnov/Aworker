@@ -110,15 +110,40 @@ class Ui_MainWindow(object):
                                       database='aiskom')
         cursor = cnx.cursor()
 
-        query = "select * from prodav where id_prodav=%s"
+        query = "select number, date_zakldog, address_sklad from dogovor;"
         data = (db_login,)
         cursor.execute(query, data)
 
         j = 0
         k = 0
-        #for item in query:
-         #   for value in item:
+        for item in query:
+            for value in item:
+                if k == 0:
+                    line_item = QtWidgets.QLabel(str(value))
+                    id = str(value)
+                    self.scrollAreaWidgetContents.addWidget(line_item, j, k, 1, 1)
+                    k += 1
+                    continue
+                line_item = QtWidgets.QLineEdit(str(value))
+                self.scrollAreaWidgetContents.addWidget(line_item, j, k, 1, 1)
 
+                but_item = QtWidgets.QPushButton("Открыть")
+                self.scrollAreaWidgetContents.addWidget(but_item, j, k + 1, 1, 1)
+                #but_item.clicked.connect(lambda state, row=id: open_check(row))
+                but_item = QtWidgets.QPushButton("Удалить")
+                self.scrollAreaWidgetContents.addWidget(but_item, j, k + 2, 1, 1)
+                but_item.clicked.connect(lambda state, row=id: delete_dogovor(row))
+            k += 1
+            if k % 3 == 0:
+                j += 1
+                k = 0
+
+        def delete_dogovor(id):
+            data = (id)
+            query = "delete from dogovor where number=%s;"
+
+            cursor.execute(query, data)
+            cnx.commit()
 
     def openotchet(self):
         Authorization = QtWidgets.QDialog()
