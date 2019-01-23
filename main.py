@@ -103,7 +103,6 @@ class Ui_MainWindow(object):
 
         self.pushButton_9.clicked.connect(self.openotchet)
 
-
     def openotchet(self):
         Authorization = QtWidgets.QDialog()
         ui = Ui_MainWindow()
@@ -445,7 +444,7 @@ class Ui_MainWindow(object):
         self.statusbar.setObjectName("statusbar")
         orderui.setStatusBar(self.statusbar)
 
-        self.retranslateorderUi(orderui)
+       # self.retranslateorderUi(orderui)
         QtCore.QMetaObject.connectSlotsByName(orderui)
 
     def retranslateorderUi(self, orderui):
@@ -464,37 +463,57 @@ class Ui_MainWindow(object):
         self.pushButton.setText(_translate("orderui", "Открыть"))
         self.pushButton_2.setText(_translate("orderui", "Удалить"))
 
+        global db_login
+
         cnx = mysql.connector.connect(user='root', password='i130813',
                                       host='127.0.0.1',
                                       database='aiskom')
         cursor = cnx.cursor()
-        query = "select id_prodazh, date from prodazha;"
 
-        cursor.execute(query)
+        query = "select FIO from prodav where id_prodav=%s"
+        data = (db_login,)
+        cursor.execute(query, data)
 
-        k = 0
+        for item in query:
+            for value in item:
+                self.label.setText("Вы авторизованы как: " + str(value))
+
+        query = "select name from torgtoch,prodav where id_prodav=%s and torgtoch.id_torgtoch=prodav.id_torgtoch;"
+        data = (db_login,)
+        cursor.execute(query, data)
+        for item in query:
+            for value in item:
+                self.label.setText("Магазин: " + str(value))
+
+        query = "select * from zakaz"
+
         j = 0
-        i = 0
+        k = 0
         for item in query:
             for value in item:
                 if k == 0:
                     line_item = QtWidgets.QLabel(str(value))
+                    id = str(value)
                     self.scrollAreaWidgetContents.addWidget(line_item, j, k, 1, 1)
                     k += 1
                     continue
                 line_item = QtWidgets.QLineEdit(str(value))
                 self.scrollAreaWidgetContents.addWidget(line_item, j, k, 1, 1)
 
-                but_item = QtWidgets.QPushButton("Открыть")
-                self.scrollAreaWidgetContents.addWidget(but_item, j, k+1, 1, 1)
                 but_item = QtWidgets.QPushButton("Удалить")
-                self.scrollAreaWidgetContents.addWidget(but_item, j, k+2, 1, 1)
-                #but_item.clicked.connect(lambda state, row=i: delete_work(row))
+                self.scrollAreaWidgetContents.addWidget(but_item, j, k + 2, 1, 1)
+                but_item.clicked.connect(lambda state, row=id: delete_sell(row))
             k += 1
-            if k % 4 == 0:
+            if k % 2 == 0:
                 j += 1
-                i += 1
                 k = 0
+
+        def delete_sell(row):
+            data = (id)
+            query = "delete from zakaz where id_zakaz=%s;"
+
+            cursor.execute(query, data)
+            cnx.commit()
 
     def setupcheckUi(self, checkui):
         checkui.setObjectName("adminis")
@@ -703,13 +722,11 @@ class Ui_MainWindow(object):
             cursor.execute(query, data)
             cnx.commit()
 
-
     def openaddcheckui(self):
         Authorization = QtWidgets.QDialog()
         ui = Ui_MainWindow()
         ui.setupaddcheckUi(Authorization)
         Authorization.exec_()
-
 
     def setupcheckviewUi(self, administrator):
         administrator.setObjectName("administrator")
@@ -770,7 +787,7 @@ if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
     Authorization = QtWidgets.QMainWindow()
     ui = Ui_MainWindow()
-    ui.setupcheckUi(Authorization)
+    ui.setuporderUi(Authorization)
     Authorization.show()
     sys.exit(app.exec_())
 
