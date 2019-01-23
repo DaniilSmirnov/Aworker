@@ -496,9 +496,6 @@ class Ui_MainWindow(object):
                 i += 1
                 k = 0
 
-    def add_check(self):
-
-
     def setupcheckUi(self, checkui):
         checkui.setObjectName("adminis")
         checkui.resize(741, 380)
