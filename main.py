@@ -474,6 +474,7 @@ class Ui_adminis(object):
 
         k = 0
         j = 0
+        i = 0
         for item in query:
             for value in item:
                 if k == 0:
@@ -485,11 +486,142 @@ class Ui_adminis(object):
                 self.scrollAreaWidgetContents.addWidget(line_item, j, k, 1, 1)
 
                 but_item = QtWidgets.QPushButton("Открыть")
-                self.scrollAreaWidgetContents.addWidget(but_item, j, j+1, 1, 1)
+                self.scrollAreaWidgetContents.addWidget(but_item, j, k+1, 1, 1)
                 but_item = QtWidgets.QPushButton("Удалить")
-                self.scrollAreaWidgetContents.addWidget(but_item, j, j+2, 1, 1)
+                self.scrollAreaWidgetContents.addWidget(but_item, j, k+2, 1, 1)
                 #but_item.clicked.connect(lambda state, row=i: delete_work(row))
+            k += 1
+            if k % 4 == 0:
+                j += 1
+                i += 1
+                k = 0
 
+    def setupcheckUi(self, checkui):
+        checkui.setObjectName("adminis")
+        checkui.resize(741, 380)
+        self.centralwidget = QtWidgets.QWidget(checkui)
+        self.centralwidget.setObjectName("centralwidget")
+        self.gridLayout = QtWidgets.QGridLayout(self.centralwidget)
+        self.gridLayout.setObjectName("gridLayout")
+        self.label = QtWidgets.QLabel(self.centralwidget)
+        self.label.setObjectName("label")
+        self.gridLayout.addWidget(self.label, 0, 0, 1, 1)
+        self.label_2 = QtWidgets.QLabel(self.centralwidget)
+        self.label_2.setObjectName("label_2")
+        self.gridLayout.addWidget(self.label_2, 0, 1, 1, 4)
+        self.pushButton_9 = QtWidgets.QPushButton(self.centralwidget)
+        self.pushButton_9.setObjectName("pushButton_9")
+        self.gridLayout.addWidget(self.pushButton_9, 1, 3, 1, 3)
+        self.label_3 = QtWidgets.QLabel(self.centralwidget)
+        self.label_3.setObjectName("label_3")
+        self.gridLayout.addWidget(self.label_3, 1, 0, 1, 3)
+        self.pushButton_4 = QtWidgets.QPushButton(self.centralwidget)
+        self.pushButton_4.setObjectName("pushButton_4")
+        self.gridLayout.addWidget(self.pushButton_4, 1, 6, 1, 1)
+        self.pushButton_6 = QtWidgets.QPushButton(self.centralwidget)
+        self.pushButton_6.setObjectName("pushButton_6")
+        self.gridLayout.addWidget(self.pushButton_6, 1, 7, 1, 1)
+        self.label_5 = QtWidgets.QLabel(self.centralwidget)
+        self.label_5.setObjectName("label_5")
+        self.gridLayout.addWidget(self.label_5, 2, 2, 1, 1)
+        self.label_4 = QtWidgets.QLabel(self.centralwidget)
+        self.label_4.setObjectName("label_4")
+        self.gridLayout.addWidget(self.label_4, 2, 0, 1, 2)
+        self.scrollArea = QtWidgets.QScrollArea(self.centralwidget)
+        self.scrollArea.setWidgetResizable(True)
+        self.scrollArea.setObjectName("scrollArea")
+        self.scrollAreaWidgetContents = QtWidgets.QWidget()
+        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 721, 253))
+        self.scrollAreaWidgetContents.setObjectName("scrollAreaWidgetContents")
+        self.gridLayout_2 = QtWidgets.QGridLayout(self.scrollAreaWidgetContents)
+        self.gridLayout_2.setObjectName("gridLayout_2")
+        self.lineEdit = QtWidgets.QLineEdit(self.scrollAreaWidgetContents)
+        self.lineEdit.setObjectName("lineEdit")
+        self.gridLayout_2.addWidget(self.lineEdit, 0, 0, 1, 1)
+        self.lineEdit_2 = QtWidgets.QLineEdit(self.scrollAreaWidgetContents)
+        self.lineEdit_2.setObjectName("lineEdit_2")
+        self.gridLayout_2.addWidget(self.lineEdit_2, 0, 1, 1, 1)
+        self.pushButton = QtWidgets.QPushButton(self.scrollAreaWidgetContents)
+        self.pushButton.setObjectName("pushButton")
+        self.gridLayout_2.addWidget(self.pushButton, 0, 4, 1, 1)
+        self.pushButton_2 = QtWidgets.QPushButton(self.scrollAreaWidgetContents)
+        self.pushButton_2.setObjectName("pushButton_2")
+        self.gridLayout_2.addWidget(self.pushButton_2, 0, 5, 1, 1)
+        self.scrollArea.setWidget(self.scrollAreaWidgetContents)
+        self.gridLayout.addWidget(self.scrollArea, 3, 0, 1, 8)
+        checkui.setCentralWidget(self.centralwidget)
+        self.menubar = QtWidgets.QMenuBar(checkui)
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 741, 20))
+        self.menubar.setObjectName("menubar")
+        checkui.setMenuBar(self.menubar)
+        self.statusbar = QtWidgets.QStatusBar(checkui)
+        self.statusbar.setObjectName("statusbar")
+        checkui.setStatusBar(self.statusbar)
+
+        self.retranslatecheckUi(checkui)
+        QtCore.QMetaObject.connectSlotsByName(checkui)
+
+    def retranslatecheckUi(self, checkui):
+        _translate = QtCore.QCoreApplication.translate
+        checkui.setWindowTitle(_translate("checkui", "MainWindow"))
+        self.label.setText(_translate("checkui", "Вы авторизованы как:"))
+
+        global db_login
+
+        cnx = mysql.connector.connect(user='root', password='i130813',
+                                      host='127.0.0.1',
+                                      database='aiskom')
+        cursor = cnx.cursor()
+
+        query = "select FIO from prodav where id_prodav=%s"
+        data = (db_login)
+        cursor.execute(query, data)
+
+        for item in cursor:
+            self.label_2.setText(str(item))
+
+        self.pushButton_9.setText(_translate("checkui", "Сформировать отчет"))
+        self.label_3.setText(_translate("checkui", "<html><head/><body><p><span style=\" font-size:12pt;\">Список чеков:</span></p></body></html>"))
+        self.pushButton_4.setText(_translate("checkui", "Закрыть"))
+        self.pushButton_6.setText(_translate("checkui", "Добавить "))
+        self.label_5.setText(_translate("checkui", "Дата продажи"))
+        self.label_4.setText(_translate("checkui", "Номер продажи"))
+        self.pushButton.setText(_translate("checkui", "Открыть"))
+        self.pushButton_2.setText(_translate("checkui", "Удалить"))
+
+        query = "select id_prodazh, date from prodazha;"
+
+        cursor.execute(query)
+
+        k = 0
+        j = 0
+        i = 0
+        for item in query:
+            for value in item:
+                if k == 0:
+                    line_item = QtWidgets.QLabel(str(value))
+                    self.scrollAreaWidgetContents.addWidget(line_item, j, k, 1, 1)
+                    k += 1
+                    continue
+                line_item = QtWidgets.QLineEdit(str(value))
+                self.scrollAreaWidgetContents.addWidget(line_item, j, k, 1, 1)
+
+                but_item = QtWidgets.QPushButton("Открыть")
+                self.scrollAreaWidgetContents.addWidget(but_item, j, k + 1, 1, 1)
+                but_item.clicked.connect(lambda state, row=i: open_check(row))
+                but_item = QtWidgets.QPushButton("Удалить")
+                self.scrollAreaWidgetContents.addWidget(but_item, j, k + 2, 1, 1)
+                but_item.clicked.connect(lambda state, row=i: delete_check(row))
+            k += 1
+            if k % 2 == 0:
+                j += 1
+                i += 1
+                k = 0
+
+        def open_check(row):
+            print(1)
+        def delete_check(row):
+            print(1)
 
 if __name__ == "__main__":
     import sys
@@ -497,7 +629,7 @@ if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
     Authorization = QtWidgets.QMainWindow()
     ui = Ui_adminis()
-    ui.setuporderUi(Authorization)
+    ui.setupcheckUi(Authorization)
     Authorization.show()
     sys.exit(app.exec_())
 
