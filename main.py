@@ -1,9 +1,13 @@
+import random
+
 from PyQt5 import QtCore, QtWidgets
 import mysql.connector
+from docx import Document
 
 db_login = ""
 db_pass = ""
 db_host = ""
+special_id = ''
 
 
 class Ui_MainWindow(object):
@@ -20,27 +24,27 @@ class Ui_MainWindow(object):
         self.label_2 = QtWidgets.QLabel(self.centralwidget)
         self.label_2.setObjectName("label_2")
         self.gridLayout.addWidget(self.label_2, 0, 1, 1, 4)
+        self.pushButton_4 = QtWidgets.QPushButton(self.centralwidget)
+        self.pushButton_4.setObjectName("pushButton_4")
+        self.gridLayout.addWidget(self.pushButton_4, 1, 7, 1, 1)
         self.pushButton_9 = QtWidgets.QPushButton(self.centralwidget)
         self.pushButton_9.setObjectName("pushButton_9")
         self.gridLayout.addWidget(self.pushButton_9, 1, 3, 1, 3)
         self.label_3 = QtWidgets.QLabel(self.centralwidget)
         self.label_3.setObjectName("label_3")
         self.gridLayout.addWidget(self.label_3, 1, 0, 1, 3)
-        self.pushButton_4 = QtWidgets.QPushButton(self.centralwidget)
-        self.pushButton_4.setObjectName("pushButton_4")
-        self.gridLayout.addWidget(self.pushButton_4, 1, 6, 1, 1)
         self.label_6 = QtWidgets.QLabel(self.centralwidget)
         self.label_6.setObjectName("label_6")
         self.gridLayout.addWidget(self.label_6, 2, 3, 1, 1)
-        self.pushButton_6 = QtWidgets.QPushButton(self.centralwidget)
-        self.pushButton_6.setObjectName("pushButton_6")
-        self.gridLayout.addWidget(self.pushButton_6, 1, 7, 1, 1)
-        self.label_5 = QtWidgets.QLabel(self.centralwidget)
-        self.label_5.setObjectName("label_5")
-        self.gridLayout.addWidget(self.label_5, 2, 2, 1, 1)
         self.label_4 = QtWidgets.QLabel(self.centralwidget)
         self.label_4.setObjectName("label_4")
         self.gridLayout.addWidget(self.label_4, 2, 0, 1, 2)
+        self.label_5 = QtWidgets.QLabel(self.centralwidget)
+        self.label_5.setObjectName("label_5")
+        self.gridLayout.addWidget(self.label_5, 2, 2, 1, 1)
+        self.pushButton_6 = QtWidgets.QPushButton(self.centralwidget)
+        self.pushButton_6.setObjectName("pushButton_6")
+        self.gridLayout.addWidget(self.pushButton_6, 1, 8, 1, 1)
         self.label_7 = QtWidgets.QLabel(self.centralwidget)
         self.label_7.setObjectName("label_7")
         self.gridLayout.addWidget(self.label_7, 2, 5, 1, 1)
@@ -71,7 +75,10 @@ class Ui_MainWindow(object):
         self.pushButton_2.setObjectName("pushButton_2")
         self.gridLayout_2.addWidget(self.pushButton_2, 0, 5, 1, 1)
         self.scrollArea.setWidget(self.scrollAreaWidgetContents)
-        self.gridLayout.addWidget(self.scrollArea, 3, 0, 1, 8)
+        self.gridLayout.addWidget(self.scrollArea, 3, 0, 1, 9)
+        self.pushButton_3 = QtWidgets.QPushButton(self.centralwidget)
+        self.pushButton_3.setObjectName("pushButton_3")
+        self.gridLayout.addWidget(self.pushButton_3, 1, 6, 1, 1)
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 741, 20))
@@ -100,7 +107,9 @@ class Ui_MainWindow(object):
         self.label_7.setText(_translate("adminis", "Адрес склада"))
         self.pushButton.setText(_translate("adminis", "Открыть"))
         self.pushButton_2.setText(_translate("adminis", "Удалить"))
+        self.pushButton_3.setText(_translate("adminis", "Список сотрудников"))
 
+        self.pushButton_3.clicked.connect(self.setupworkersUi)
         self.pushButton_9.clicked.connect(self.openotchet)
 
         '''
@@ -149,6 +158,182 @@ class Ui_MainWindow(object):
             cursor.execute(query, data)
             cnx.commit()
         '''
+
+    def setupworkersUi(self):
+        MainWindow.setObjectName("MainWindow")
+        MainWindow.resize(741, 380)
+        self.centralwidget = QtWidgets.QWidget(MainWindow)
+        self.centralwidget.setObjectName("centralwidget")
+        self.gridLayout = QtWidgets.QGridLayout(self.centralwidget)
+        self.gridLayout.setObjectName("gridLayout")
+        self.label = QtWidgets.QLabel(self.centralwidget)
+        self.label.setObjectName("label")
+        self.gridLayout.addWidget(self.label, 0, 0, 1, 1)
+        self.label_2 = QtWidgets.QLabel(self.centralwidget)
+        self.label_2.setObjectName("label_2")
+        self.gridLayout.addWidget(self.label_2, 0, 1, 1, 4)
+        self.pushButton_4 = QtWidgets.QPushButton(self.centralwidget)
+        self.pushButton_4.setObjectName("pushButton_4")
+        self.gridLayout.addWidget(self.pushButton_4, 1, 6, 1, 1)
+        self.label_3 = QtWidgets.QLabel(self.centralwidget)
+        self.label_3.setObjectName("label_3")
+        self.gridLayout.addWidget(self.label_3, 1, 0, 1, 3)
+        self.label_6 = QtWidgets.QLabel(self.centralwidget)
+        self.label_6.setObjectName("label_6")
+        self.gridLayout.addWidget(self.label_6, 2, 3, 1, 1)
+        self.label_4 = QtWidgets.QLabel(self.centralwidget)
+        self.label_4.setObjectName("label_4")
+        self.gridLayout.addWidget(self.label_4, 2, 0, 1, 2)
+        self.label_5 = QtWidgets.QLabel(self.centralwidget)
+        self.label_5.setObjectName("label_5")
+        self.gridLayout.addWidget(self.label_5, 2, 2, 1, 1)
+        self.pushButton_6 = QtWidgets.QPushButton(self.centralwidget)
+        self.pushButton_6.setObjectName("pushButton_6")
+        self.gridLayout.addWidget(self.pushButton_6, 1, 7, 1, 1)
+        self.label_7 = QtWidgets.QLabel(self.centralwidget)
+        self.label_7.setObjectName("label_7")
+        self.gridLayout.addWidget(self.label_7, 2, 5, 1, 1)
+        self.scrollArea = QtWidgets.QScrollArea(self.centralwidget)
+        self.scrollArea.setWidgetResizable(True)
+        self.scrollArea.setObjectName("scrollArea")
+        self.scrollAreaWidgetContents = QtWidgets.QWidget()
+        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 721, 253))
+        self.scrollAreaWidgetContents.setObjectName("scrollAreaWidgetContents")
+        self.gridLayout_2 = QtWidgets.QGridLayout(self.scrollAreaWidgetContents)
+        self.gridLayout_2.setObjectName("gridLayout_2")
+        self.scrollArea.setWidget(self.scrollAreaWidgetContents)
+        self.gridLayout.addWidget(self.scrollArea, 3, 0, 1, 8)
+        MainWindow.setCentralWidget(self.centralwidget)
+        self.menubar = QtWidgets.QMenuBar(MainWindow)
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 741, 20))
+        self.menubar.setObjectName("menubar")
+        MainWindow.setMenuBar(self.menubar)
+        self.statusbar = QtWidgets.QStatusBar(MainWindow)
+        self.statusbar.setObjectName("statusbar")
+        MainWindow.setStatusBar(self.statusbar)
+
+        self.retranslateworkersUi(MainWindow)
+        QtCore.QMetaObject.connectSlotsByName(MainWindow)
+
+    def retranslateworkersUi(self, adminis):
+        _translate = QtCore.QCoreApplication.translate
+        adminis.setWindowTitle(_translate("adminis", "MainWindow"))
+        self.label.setText(_translate("adminis", "Вы авторизованы как:"))
+        self.label_2.setText(_translate("adminis", "администратор"))
+        self.pushButton_4.setText(_translate("adminis", "Закрыть"))
+        self.label_3.setText(_translate("adminis", "<html><head/><body><p><span style=\" font-size:12pt;\">Список заказов:</span></p></body></html>"))
+        self.label_6.setText(_translate("adminis", "Адрес"))
+        self.label_4.setText(_translate("adminis", "Паспортные данные"))
+        self.label_5.setText(_translate("adminis", "ФИО"))
+        self.pushButton_6.setText(_translate("adminis", "Добавить "))
+        self.label_7.setText(_translate("adminis", "Телефон"))
+
+        global db_login
+
+        cnx = mysql.connector.connect(user='root', password='i130813',
+                                      host='127.0.0.1',
+                                      database='aiskom')
+        cursor = cnx.cursor()
+
+        query = "select id_prodav, FIO, address, phone_numb from prodav;"
+        cursor.execute(query)
+
+        j = 0
+        k = 0
+        for item in cursor:
+            if j == 0:
+                j += 1
+                continue
+            for value in item:
+                if k == 0:
+                    line_item = QtWidgets.QLabel(str(value))
+                    id = str(value)
+                    self.gridLayout_2.addWidget(line_item, j, k, 1, 1)
+                    k += 1
+                    global special_id
+                    special_id = id
+                    continue
+                line_item = QtWidgets.QLabel(str(value))
+                self.gridLayout_2.addWidget(line_item, j, k, 1, 1)
+
+                k += 1
+                if k % 4 == 0:
+                    but_item = QtWidgets.QPushButton("Открыть")
+                    self.gridLayout_2.addWidget(but_item, j, 5, 1, 1)
+                    # but_item.clicked.connect(lambda state, row=id: open_check(row))
+                    but_item = QtWidgets.QPushButton("Удалить")
+                    self.gridLayout_2.addWidget(but_item, j, 6, 1, 1)
+                    # but_item.clicked.connect(lambda state, row=id: delete_dogovor(row))
+                    j += 1
+                    k = 0
+
+        self.pushButton_6.clicked.connect(self.setupnewuserUi)
+
+    def setupnewuserUi(self):
+        self.centralwidget = QtWidgets.QWidget(MainWindow)
+        self.centralwidget.setObjectName("centralwidget")
+        self.verticalLayout = QtWidgets.QVBoxLayout(self.centralwidget)
+        self.verticalLayout.setObjectName("verticalLayout")
+        self.fioedit = QtWidgets.QLineEdit(self.centralwidget)
+        self.fioedit.setObjectName("fioedit")
+        self.verticalLayout.addWidget(self.fioedit)
+        self.lineEdit_2 = QtWidgets.QLineEdit(self.centralwidget)
+        self.lineEdit_2.setObjectName("lineEdit_2")
+        self.verticalLayout.addWidget(self.lineEdit_2)
+        self.lineEdit_3 = QtWidgets.QLineEdit(self.centralwidget)
+        self.lineEdit_3.setObjectName("lineEdit_3")
+        self.verticalLayout.addWidget(self.lineEdit_3)
+        self.lineEdit_4 = QtWidgets.QLineEdit(self.centralwidget)
+        self.lineEdit_4.setObjectName("lineEdit_4")
+        self.verticalLayout.addWidget(self.lineEdit_4)
+        self.lineEdit_5 = QtWidgets.QLineEdit(self.centralwidget)
+        self.lineEdit_5.setObjectName("lineEdit_5")
+        self.verticalLayout.addWidget(self.lineEdit_5)
+        self.pushButton_2 = QtWidgets.QPushButton(self.centralwidget)
+        self.pushButton_2.setObjectName("pushButton_2")
+        self.verticalLayout.addWidget(self.pushButton_2)
+        self.pushButton_3 = QtWidgets.QPushButton(self.centralwidget)
+        self.pushButton_3.setObjectName("pushButton_3")
+        self.verticalLayout.addWidget(self.pushButton_3)
+        MainWindow.setCentralWidget(self.centralwidget)
+        self.menubar = QtWidgets.QMenuBar(MainWindow)
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 313, 21))
+        self.menubar.setObjectName("menubar")
+        MainWindow.setMenuBar(self.menubar)
+        self.statusbar = QtWidgets.QStatusBar(MainWindow)
+        self.statusbar.setObjectName("statusbar")
+        MainWindow.setStatusBar(self.statusbar)
+
+        self.retranslatenewuserUi(MainWindow)
+        QtCore.QMetaObject.connectSlotsByName(MainWindow)
+
+    def retranslatenewuserUi(self, Dialog):
+        _translate = QtCore.QCoreApplication.translate
+        Dialog.setWindowTitle(_translate("Dialog", "Dialog"))
+        self.pushButton_2.setText(_translate("Dialog", "Добавить"))
+        self.pushButton_3.setText(_translate("Dialog", "Назад"))
+
+        self.pushButton_2.clicked.connect(lambda: adduser())
+
+        def adduser():
+            global db_login, db_host, db_pass, special_id
+
+            cnx = mysql.connector.connect(user='root', password=db_pass,
+                                          host=db_host,
+                                          database='aiskom')
+            cursor = cnx.cursor()
+            if self.fioedit.text() != "" and self.lineEdit_2.text() != "" and self.lineEdit_3.text() != "" and self.lineEdit_4.text() != "" and self.lineEdit_5.text() != "":
+                data = (self.fioedit.text(), self.lineEdit_2.text(), self.lineEdit_3.text(), self.lineEdit_4.text(), self.lineEdit_5.text())
+                query = "insert into prodav(FIO, id_torgtoch, numb_ser_pass, phone_numb, address)values(%s,%s,%s,%s,%s);"
+                cursor.execute(query, data)
+                cnx.commit()
+                for x in range(6):  # Количество символов (16)
+                    pas = pas + random.choice(list('1234567890abcdefghigklmnopqrstuvyxwzABCDEFGHIGKLMNOPQRSTUVYXWZ'))
+                data = (special_id, pas, special_id)
+                query = "insert into uspas(login, password, id_prodav) values(%s,%s,%s);"
+                cursor.execute(query, data)
+                cnx.commit()
+                self.setupworkersUi()
 
     def openotchet(self):
         Authorization = QtWidgets.QDialog()
@@ -239,6 +424,21 @@ class Ui_MainWindow(object):
         self.lineEdit_3.setText(_translate("Authorization", "Контрольная точка №2"))
         self.pushButton.setText(_translate("Authorization", "Товары"))
         self.pushButton_2.setText(_translate("Authorization", "Продавцы"))
+
+        self.pushButton.clicked.connect(self.otchettovary)
+
+    def otchettovary(self):
+
+        global db_login, db_host, db_pass
+
+        cnx = mysql.connector.connect(user='root', password=db_pass,
+                                      host=db_host,
+                                      database='aiskom')
+        cursor = cnx.cursor()
+
+        query = "select plan from prodav;"
+        cursor.execute()
+
 
     def setupLoginUi(self):
         MainWindow.setObjectName("MainWindow")
