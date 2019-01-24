@@ -1,4 +1,4 @@
-from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5 import QtCore, QtWidgets
 import mysql.connector
 
 db_login = ""
@@ -7,10 +7,10 @@ db_host = ""
 
 
 class Ui_MainWindow(object):
-    def setupadminisUi(self, adminis):
-        adminis.setObjectName("adminis")
-        adminis.resize(741, 380)
-        self.centralwidget = QtWidgets.QWidget(adminis)
+    def setupadminisUi(self):
+        MainWindow.setObjectName("MainWindow")
+        MainWindow.resize(741, 380)
+        self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.gridLayout = QtWidgets.QGridLayout(self.centralwidget)
         self.gridLayout.setObjectName("gridLayout")
@@ -72,17 +72,17 @@ class Ui_MainWindow(object):
         self.gridLayout_2.addWidget(self.pushButton_2, 0, 5, 1, 1)
         self.scrollArea.setWidget(self.scrollAreaWidgetContents)
         self.gridLayout.addWidget(self.scrollArea, 3, 0, 1, 8)
-        adminis.setCentralWidget(self.centralwidget)
-        self.menubar = QtWidgets.QMenuBar(adminis)
+        MainWindow.setCentralWidget(self.centralwidget)
+        self.menubar = QtWidgets.QMenuBar(MainWindow)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 741, 20))
         self.menubar.setObjectName("menubar")
-        adminis.setMenuBar(self.menubar)
-        self.statusbar = QtWidgets.QStatusBar(adminis)
+        MainWindow.setMenuBar(self.menubar)
+        self.statusbar = QtWidgets.QStatusBar(MainWindow)
         self.statusbar.setObjectName("statusbar")
-        adminis.setStatusBar(self.statusbar)
+        MainWindow.setStatusBar(self.statusbar)
 
-        #self.retranslateadminisUi(adminis)
-        QtCore.QMetaObject.connectSlotsByName(adminis)
+        self.retranslateadminisUi(MainWindow)
+        QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateadminisUi(self, adminis):
         _translate = QtCore.QCoreApplication.translate
@@ -103,6 +103,7 @@ class Ui_MainWindow(object):
 
         self.pushButton_9.clicked.connect(self.openotchet)
 
+        '''
         global db_login
 
         cnx = mysql.connector.connect(user='root', password='i130813',
@@ -118,6 +119,9 @@ class Ui_MainWindow(object):
         k = 0
         for item in query:
             for value in item:
+                if j == 0:
+                    j += 1
+                    continue
                 if k == 0:
                     line_item = QtWidgets.QLabel(str(value))
                     id = str(value)
@@ -144,6 +148,7 @@ class Ui_MainWindow(object):
 
             cursor.execute(query, data)
             cnx.commit()
+        '''
 
     def openotchet(self):
         Authorization = QtWidgets.QDialog()
@@ -235,58 +240,68 @@ class Ui_MainWindow(object):
         self.pushButton.setText(_translate("Authorization", "Товары"))
         self.pushButton_2.setText(_translate("Authorization", "Продавцы"))
 
-    def setupLoginUi(self, oshibka):
-        oshibka.setObjectName("oshibka")
-        oshibka.resize(290, 233)
-        self.verticalloginLayout = QtWidgets.QVBoxLayout(oshibka)
-        self.verticalloginLayout.setObjectName("verticalLayout")
-        self.label_3 = QtWidgets.QLabel(oshibka)
+    def setupLoginUi(self):
+        MainWindow.setObjectName("MainWindow")
+        MainWindow.resize(449, 315)
+        self.centralwidget = QtWidgets.QWidget(MainWindow)
+        self.centralwidget.setObjectName("centralwidget")
+        self.verticalLayout = QtWidgets.QVBoxLayout(self.centralwidget)
+        self.verticalLayout.setObjectName("verticalLayout")
+        self.label_3 = QtWidgets.QLabel(self.centralwidget)
         self.label_3.setObjectName("label_3")
-        self.verticalloginLayout.addWidget(self.label_3)
-        self.label = QtWidgets.QLabel(oshibka)
+        self.verticalLayout.addWidget(self.label_3)
+        self.label = QtWidgets.QLabel(self.centralwidget)
         self.label.setObjectName("label")
-        self.verticalloginLayout.addWidget(self.label)
-        self.label_4 = QtWidgets.QLabel(oshibka)
+        self.verticalLayout.addWidget(self.label)
+        self.label_4 = QtWidgets.QLabel(self.centralwidget)
         self.label_4.setObjectName("label_4")
-        self.verticalloginLayout.addWidget(self.label_4)
-        self.lineEdit = QtWidgets.QLineEdit(oshibka)
+        self.verticalLayout.addWidget(self.label_4)
+        self.lineEdit = QtWidgets.QLineEdit(self.centralwidget)
         self.lineEdit.setObjectName("lineEdit")
-        self.verticalloginLayout.addWidget(self.lineEdit)
-        self.label_2 = QtWidgets.QLabel(oshibka)
+        self.verticalLayout.addWidget(self.lineEdit)
+        self.label_2 = QtWidgets.QLabel(self.centralwidget)
         self.label_2.setObjectName("label_2")
-        self.verticalloginLayout.addWidget(self.label_2)
-        self.label_5 = QtWidgets.QLabel(oshibka)
+        self.verticalLayout.addWidget(self.label_2)
+        self.label_5 = QtWidgets.QLabel(self.centralwidget)
         self.label_5.setObjectName("label_5")
-        self.verticalloginLayout.addWidget(self.label_5)
-        self.lineEdit_2 = QtWidgets.QLineEdit(oshibka)
+        self.verticalLayout.addWidget(self.label_5)
+        self.lineEdit_2 = QtWidgets.QLineEdit(self.centralwidget)
         self.lineEdit_2.setMouseTracking(False)
         self.lineEdit_2.setTabletTracking(False)
         self.lineEdit_2.setContextMenuPolicy(QtCore.Qt.DefaultContextMenu)
         self.lineEdit_2.setToolTip("")
         self.lineEdit_2.setAutoFillBackground(False)
         self.lineEdit_2.setInputMethodHints(
-        QtCore.Qt.ImhHiddenText | QtCore.Qt.ImhNoAutoUppercase | QtCore.Qt.ImhNoPredictiveText | QtCore.Qt.ImhSensitiveData)
+            QtCore.Qt.ImhHiddenText | QtCore.Qt.ImhNoAutoUppercase | QtCore.Qt.ImhNoPredictiveText | QtCore.Qt.ImhSensitiveData)
         self.lineEdit_2.setEchoMode(QtWidgets.QLineEdit.Password)
         self.lineEdit_2.setObjectName("lineEdit_2")
-        self.verticalloginLayout.addWidget(self.lineEdit_2)
-        self.label_8 = QtWidgets.QLabel(oshibka)
+        self.verticalLayout.addWidget(self.lineEdit_2)
+        self.label_8 = QtWidgets.QLabel(self.centralwidget)
         self.label_8.setObjectName("label_8")
-        self.verticalloginLayout.addWidget(self.label_8)
-        self.label_7 = QtWidgets.QLabel(oshibka)
+        self.verticalLayout.addWidget(self.label_8)
+        self.label_7 = QtWidgets.QLabel(self.centralwidget)
         self.label_7.setObjectName("label_7")
-        self.verticalloginLayout.addWidget(self.label_7)
-        self.lineEdit_3 = QtWidgets.QLineEdit(oshibka)
+        self.verticalLayout.addWidget(self.label_7)
+        self.lineEdit_3 = QtWidgets.QLineEdit(self.centralwidget)
         self.lineEdit_3.setObjectName("lineEdit_3")
-        self.verticalloginLayout.addWidget(self.lineEdit_3)
-        self.pushButton = QtWidgets.QPushButton(oshibka)
+        self.verticalLayout.addWidget(self.lineEdit_3)
+        self.pushButton = QtWidgets.QPushButton(self.centralwidget)
         self.pushButton.setObjectName("pushButton")
-        self.verticalloginLayout.addWidget(self.pushButton)
-        self.label_6 = QtWidgets.QLabel(oshibka)
+        self.verticalLayout.addWidget(self.pushButton)
+        self.label_6 = QtWidgets.QLabel(self.centralwidget)
         self.label_6.setObjectName("label_6")
-        self.verticalloginLayout.addWidget(self.label_6)
+        self.verticalLayout.addWidget(self.label_6)
+        MainWindow.setCentralWidget(self.centralwidget)
+        self.menubar = QtWidgets.QMenuBar(MainWindow)
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 449, 21))
+        self.menubar.setObjectName("menubar")
+        MainWindow.setMenuBar(self.menubar)
+        self.statusbar = QtWidgets.QStatusBar(MainWindow)
+        self.statusbar.setObjectName("statusbar")
+        MainWindow.setStatusBar(self.statusbar)
 
-        self.retranslateLoginUi(oshibka)
-        QtCore.QMetaObject.connectSlotsByName(oshibka)
+        self.retranslateLoginUi(MainWindow)
+        QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateLoginUi(self, oshibka):
         _translate = QtCore.QCoreApplication.translate
@@ -302,12 +317,12 @@ class Ui_MainWindow(object):
 
     def login(self):
 
-        global db_host, db_password
+        global db_host, db_password, db_login
 
         if self.lineEdit.text() != "" and self.lineEdit_2.text() != "" and self.lineEdit_3.text() != "" and self.lineEdit_3.text().find(":") != -1:
             adress = self.lineEdit_3.text().split(":")
-            password = adress[1]
-            adress = adress[0]
+            password = str(adress[1])
+            adress = str(adress[0])
 
             try:
 
@@ -318,23 +333,24 @@ class Ui_MainWindow(object):
 
                 db_host = adress
                 db_password = password
+                db_login = self.lineEdit.text()
 
             except BaseException:
                 self.label_6.setText("<html><head/><body><p><span style=\" color:#ff0000;\">Проверьте правильность введеных данных</span></p></body></html>")
 
             try:
                 query = "select password from uspas where login= %s"
-                data = (self.lineEdit_2.text())
+                data = (self.lineEdit.text(), )
                 cursor.execute(query, data)
                 for item in cursor:
-                    if item[0] == data:
+                    if item[0] == self.lineEdit_2.text():
                         if self.lineEdit.text() == "admin":
                             self.setupadminisUi()
                         else:
                             self.setuporderUi()
 
             except BaseException:
-                self.label_6.setText("<html><head/><body><p><span style=\" color:#ff0000;\">Проверьте правильность введеных данных</span></p></body></html>")
+               self.label_6.setText("<html><head/><body><p><span style=\" color:#ff0000;\">Проверьте правильность введеных данных</span></p></body></html>")
 
 
 
@@ -409,16 +425,16 @@ class Ui_MainWindow(object):
         self.pushButton_2.setText(_translate("sostavdog", "Убрать"))
         self.pushButton_3.setText(_translate("sostavdog", "Убрать"))
 
-    def setuporderUi(self, orderui):
-        orderui.setObjectName("adminis")
-        orderui.resize(741, 380)
-        self.centralwidget = QtWidgets.QWidget(orderui)
+    def setuporderUi(self):
+        MainWindow.setObjectName("adminis")
+        MainWindow.resize(741, 380)
+        self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.gridLayout = QtWidgets.QGridLayout(self.centralwidget)
         self.gridLayout.setObjectName("gridLayout")
-        self.label = QtWidgets.QLabel(self.centralwidget)
-        self.label.setObjectName("label")
-        self.gridLayout.addWidget(self.label, 0, 0, 1, 1)
+        self.workerlabel = QtWidgets.QLabel(self.centralwidget)
+        self.workerlabel.setObjectName("workerlabel")
+        self.gridLayout.addWidget(self.workerlabel, 0, 0, 1, 1)
         self.label_2 = QtWidgets.QLabel(self.centralwidget)
         self.label_2.setObjectName("label_2")
         self.gridLayout.addWidget(self.label_2, 0, 1, 1, 4)
@@ -431,9 +447,9 @@ class Ui_MainWindow(object):
         self.pushButton_4 = QtWidgets.QPushButton(self.centralwidget)
         self.pushButton_4.setObjectName("pushButton_4")
         self.gridLayout.addWidget(self.pushButton_4, 1, 6, 1, 1)
-        self.label_6 = QtWidgets.QLabel(self.centralwidget)
-        self.label_6.setObjectName("label_6")
-        self.gridLayout.addWidget(self.label_6, 2, 3, 1, 1)
+        self.labelorderdate = QtWidgets.QLabel(self.centralwidget)
+        self.labelorderdate.setObjectName("labelorderdate")
+        self.gridLayout.addWidget(self.labelorderdate, 2, 3, 1, 1)
         self.pushButton_6 = QtWidgets.QPushButton(self.centralwidget)
         self.pushButton_6.setObjectName("pushButton_6")
         self.gridLayout.addWidget(self.pushButton_6, 1, 7, 1, 1)
@@ -474,27 +490,27 @@ class Ui_MainWindow(object):
         self.gridLayout_2.addWidget(self.pushButton_2, 0, 5, 1, 1)
         self.scrollArea.setWidget(self.scrollAreaWidgetContents)
         self.gridLayout.addWidget(self.scrollArea, 3, 0, 1, 8)
-        orderui.setCentralWidget(self.centralwidget)
-        self.menubar = QtWidgets.QMenuBar(orderui)
+        MainWindow.setCentralWidget(self.centralwidget)
+        self.menubar = QtWidgets.QMenuBar(MainWindow)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 741, 20))
         self.menubar.setObjectName("menubar")
-        orderui.setMenuBar(self.menubar)
-        self.statusbar = QtWidgets.QStatusBar(orderui)
+        MainWindow.setMenuBar(self.menubar)
+        self.statusbar = QtWidgets.QStatusBar(MainWindow)
         self.statusbar.setObjectName("statusbar")
-        orderui.setStatusBar(self.statusbar)
+        MainWindow.setStatusBar(self.statusbar)
 
-        self.retranslateorderUi(orderui)
-        QtCore.QMetaObject.connectSlotsByName(orderui)
+        self.retranslateorderUi(MainWindow)
+        QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateorderUi(self, orderui):
         _translate = QtCore.QCoreApplication.translate
         orderui.setWindowTitle(_translate("orderui", "MainWindow"))
-        self.label.setText(_translate("orderui", "Вы авторизованы как:"))
-        self.label_2.setText(_translate("orderui", "администратор"))
+        self.workerlabel.setText(_translate("orderui", "Вы авторизованы как:"))
+        #self.label_2.setText(_translate("orderui", "администратор"))
         self.pushButton_9.setText(_translate("orderui", "Сформировать отчет"))
         self.label_3.setText(_translate("orderui", "<html><head/><body><p><span style=\" font-size:12pt;\">Список заказов:</span></p></body></html>"))
         self.pushButton_4.setText(_translate("orderui", "Закрыть"))
-        self.label_6.setText(_translate("orderui", "Дата заказа"))
+        self.labelorderdate.setText(_translate("orderui", "Дата заказа"))
         self.pushButton_6.setText(_translate("orderui", "Добавить "))
         self.label_5.setText(_translate("orderui", "Кол-во товара"))
         self.label_4.setText(_translate("orderui", "Номер заказа"))
@@ -504,10 +520,10 @@ class Ui_MainWindow(object):
 
         self.pushButton_6.clicked.connect(self.addorderui)
 
-        global db_login
+        global db_login, db_host, db_pass
 
-        cnx = mysql.connector.connect(user='root', password='i130813',
-                                      host='127.0.0.1',
+        cnx = mysql.connector.connect(user='root', password=db_pass,
+                                      host=db_host,
                                       database='aiskom')
         cursor = cnx.cursor()
 
@@ -515,24 +531,27 @@ class Ui_MainWindow(object):
         data = (db_login,)
         cursor.execute(query, data)
 
-        for item in query:
-            for value in item:
-                self.label.setText("Вы авторизованы как: " + str(value))
+        for (FIO) in cursor:
+            self.workerlabel.setText("Вы авторизованы как: " + str(FIO[0]))
 
         query = "select name from torgtoch,prodav where id_prodav=%s and torgtoch.id_torgtoch=prodav.id_torgtoch;"
         data = (db_login,)
         cursor.execute(query, data)
         for item in query:
             for value in item:
-                self.label.setText("Магазин: " + str(value))
+                self.label_2.setText("Магазин: " + str(value))
 
         query = "select id_zakaz,date_zakaz from zakaz where id_prodav=%s;"
         data = (db_login, )
+        cursor.execute(query, data)
 
         j = 0
         k = 0
         for item in query:
             for value in item:
+                if j == 0:
+                    j += 1
+                    continue
                 if k == 0:
                     line_item = QtWidgets.QLabel(str(value))
                     id = str(value)
@@ -610,7 +629,7 @@ class Ui_MainWindow(object):
         self.statusbar.setObjectName("statusbar")
         administrator.setStatusBar(self.statusbar)
 
-        self.retranslateaddcheckUi(administrator)
+        self.retranslateaddorderUi(administrator)
         QtCore.QMetaObject.connectSlotsByName(administrator)
 
     def retranslateaddorderUi(self, administrator):
@@ -734,6 +753,9 @@ class Ui_MainWindow(object):
         i = 0
         for item in query:
             for value in item:
+                if j == 0:
+                    j += 1
+                    continue
                 if k == 0:
                     line_item = QtWidgets.QLabel(str(value))
                     id = str(value)
@@ -842,7 +864,7 @@ class Ui_MainWindow(object):
         self.centralwidget.setObjectName("centralwidget")
         self.verticalLayout = QtWidgets.QVBoxLayout(self.centralwidget)
         self.verticalLayout.setObjectName("verticalLayout")
-        self.label = QtWidgets.QLabel(self.centralwidget)
+        self.workerlabel = QtWidgets.QLabel(self.centralwidget)
         self.label.setObjectName("label")
         self.verticalLayout.addWidget(self.label)
         self.pushButton = QtWidgets.QPushButton(self.centralwidget)
@@ -890,11 +912,11 @@ class Ui_MainWindow(object):
 
 if __name__ == "__main__":
     import sys
-
     app = QtWidgets.QApplication(sys.argv)
-    Authorization = QtWidgets.QDialog()
+    MainWindow = QtWidgets.QMainWindow()
     ui = Ui_MainWindow()
-    ui.setupLoginUi(Authorization)
-    Authorization.show()
+    ui.setupLoginUi()
+    MainWindow.show()
     sys.exit(app.exec_())
+
 
