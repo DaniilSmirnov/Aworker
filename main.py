@@ -438,7 +438,7 @@ class Ui_MainWindow(object):
         p = document.add_paragraph("Число продаж: 3")
         p = document.add_paragraph("На сумму: 48000")
         document.add_page_break()
-        document.save('Отчет по продавцу.docx')
+        document.save('Отчет по продавцам.docx')
 
 
 
