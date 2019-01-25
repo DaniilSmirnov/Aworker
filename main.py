@@ -9,6 +9,9 @@ db_pass = ""
 db_host = ""
 special_id = ''
 
+first_column_dog = ['100001', '100002']
+second_column_dog = ['26-12-2018', '23-01-2019']
+third_column_dog = ['Пушкина 8', 'Колотушкина 9']
 
 class Ui_MainWindow(object):
     def setupadminisUi(self):
@@ -33,9 +36,6 @@ class Ui_MainWindow(object):
         self.label_3 = QtWidgets.QLabel(self.centralwidget)
         self.label_3.setObjectName("label_3")
         self.gridLayout.addWidget(self.label_3, 1, 0, 1, 3)
-        self.label_6 = QtWidgets.QLabel(self.centralwidget)
-        self.label_6.setObjectName("label_6")
-        self.gridLayout.addWidget(self.label_6, 2, 3, 1, 1)
         self.label_4 = QtWidgets.QLabel(self.centralwidget)
         self.label_4.setObjectName("label_4")
         self.gridLayout.addWidget(self.label_4, 2, 0, 1, 2)
@@ -56,24 +56,6 @@ class Ui_MainWindow(object):
         self.scrollAreaWidgetContents.setObjectName("scrollAreaWidgetContents")
         self.gridLayout_2 = QtWidgets.QGridLayout(self.scrollAreaWidgetContents)
         self.gridLayout_2.setObjectName("gridLayout_2")
-        self.lineEdit = QtWidgets.QLineEdit(self.scrollAreaWidgetContents)
-        self.lineEdit.setObjectName("lineEdit")
-        self.gridLayout_2.addWidget(self.lineEdit, 0, 0, 1, 1)
-        self.lineEdit_2 = QtWidgets.QLineEdit(self.scrollAreaWidgetContents)
-        self.lineEdit_2.setObjectName("lineEdit_2")
-        self.gridLayout_2.addWidget(self.lineEdit_2, 0, 1, 1, 1)
-        self.lineEdit_3 = QtWidgets.QLineEdit(self.scrollAreaWidgetContents)
-        self.lineEdit_3.setObjectName("lineEdit_3")
-        self.gridLayout_2.addWidget(self.lineEdit_3, 0, 2, 1, 1)
-        self.lineEdit_4 = QtWidgets.QLineEdit(self.scrollAreaWidgetContents)
-        self.lineEdit_4.setObjectName("lineEdit_4")
-        self.gridLayout_2.addWidget(self.lineEdit_4, 0, 3, 1, 1)
-        self.pushButton = QtWidgets.QPushButton(self.scrollAreaWidgetContents)
-        self.pushButton.setObjectName("pushButton")
-        self.gridLayout_2.addWidget(self.pushButton, 0, 4, 1, 1)
-        self.pushButton_2 = QtWidgets.QPushButton(self.scrollAreaWidgetContents)
-        self.pushButton_2.setObjectName("pushButton_2")
-        self.gridLayout_2.addWidget(self.pushButton_2, 0, 5, 1, 1)
         self.scrollArea.setWidget(self.scrollAreaWidgetContents)
         self.gridLayout.addWidget(self.scrollArea, 3, 0, 1, 9)
         self.pushButton_3 = QtWidgets.QPushButton(self.centralwidget)
@@ -100,64 +82,80 @@ class Ui_MainWindow(object):
         self.label_3.setText(_translate("adminis",
                                         "<html><head/><body><p><span style=\" font-size:12pt;\">Список составленных договоров:</span></p></body></html>"))
         self.pushButton_4.setText(_translate("adminis", "Закрыть"))
-        self.label_6.setText(_translate("adminis", "Товарный кредит"))
         self.pushButton_6.setText(_translate("adminis", "Добавить "))
         self.label_5.setText(_translate("adminis", "Дата заключения"))
         self.label_4.setText(_translate("adminis", "Номер договора"))
         self.label_7.setText(_translate("adminis", "Адрес склада"))
-        self.pushButton.setText(_translate("adminis", "Открыть"))
-        self.pushButton_2.setText(_translate("adminis", "Удалить"))
         self.pushButton_3.setText(_translate("adminis", "Список сотрудников"))
 
         self.pushButton_3.clicked.connect(self.setupworkersUi)
-        self.pushButton_9.clicked.connect(self.openotchet)
+        self.pushButton_6.clicked.connect(lambda: add())
 
-        '''
-        global db_login
+        def add():
+             first_column_dog.append('100003')
+             second_column_dog.append('24-01-2019')
+             third_column_dog.append('Песочная 14')
+             self.setupadddogovorUi()
 
-        cnx = mysql.connector.connect(user='root', password='i130813',
-                                      host='127.0.0.1',
-                                      database='aiskom')
-        cursor = cnx.cursor()
+        i = 0
+        for item in first_column_dog:
+            line_item = QtWidgets.QLineEdit(str(item))
+            self.gridLayout_2.addWidget(line_item, i, 1, 1, 1)
+            i += 1
+        i = 0
+        for item in second_column_dog:
+            line_item = QtWidgets.QLineEdit(str(item))
+            self.gridLayout_2.addWidget(line_item, i, 2, 1, 1)
+            i += 1
+        i = 0
+        for item in third_column_dog:
+            line_item = QtWidgets.QLineEdit(str(item))
+            self.gridLayout_2.addWidget(line_item, i, 3, 1, 1)
+            line_item = QtWidgets.QPushButton("Удалить")
+            line_item.clicked.connect(lambda state, row = i: delete(row))
+            self.gridLayout_2.addWidget(line_item, i, 4, 1, 1)
+            i += 1
 
-        query = "select number, date_zakldog, address_sklad from dogovor;"
-        data = (db_login,)
-        cursor.execute(query, data)
+        def delete(row):
+            first_column_dog.pop(row)
+            second_column_dog.pop(row)
+            third_column_dog.pop(row)
+            self.setupadminisUi()
 
-        j = 0
-        k = 0
-        for item in query:
-            for value in item:
-                if j == 0:
-                    j += 1
-                    continue
-                if k == 0:
-                    line_item = QtWidgets.QLabel(str(value))
-                    id = str(value)
-                    self.scrollAreaWidgetContents.addWidget(line_item, j, k, 1, 1)
-                    k += 1
-                    continue
-                line_item = QtWidgets.QLineEdit(str(value))
-                self.scrollAreaWidgetContents.addWidget(line_item, j, k, 1, 1)
+    def setupadddogovorUi(self):
+        MainWindow.setObjectName("MainWindow")
+        MainWindow.resize(313, 430)
+        self.centralwidget = QtWidgets.QWidget(MainWindow)
+        self.centralwidget.setObjectName("centralwidget")
+        self.verticalLayout = QtWidgets.QVBoxLayout(self.centralwidget)
+        self.verticalLayout.setObjectName("verticalLayout")
+        self.lineEdit = QtWidgets.QLineEdit(self.centralwidget)
+        self.lineEdit.setObjectName("lineEdit")
+        self.verticalLayout.addWidget(self.lineEdit)
+        self.lineEdit_2 = QtWidgets.QLineEdit(self.centralwidget)
+        self.lineEdit_2.setObjectName("lineEdit_2")
+        self.verticalLayout.addWidget(self.lineEdit_2)
+        self.lineEdit_3 = QtWidgets.QLineEdit(self.centralwidget)
+        self.lineEdit_3.setObjectName("lineEdit_3")
+        self.verticalLayout.addWidget(self.lineEdit_3)
+        self.pushButton_2 = QtWidgets.QPushButton(self.centralwidget)
+        self.pushButton_2.setObjectName("pushButton_2")
+        self.verticalLayout.addWidget(self.pushButton_2)
+        self.pushButton_3 = QtWidgets.QPushButton(self.centralwidget)
+        self.pushButton_3.setObjectName("pushButton_3")
+        self.verticalLayout.addWidget(self.pushButton_3)
+        MainWindow.setCentralWidget(self.centralwidget)
+        self.menubar = QtWidgets.QMenuBar(MainWindow)
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 313, 21))
+        self.menubar.setObjectName("menubar")
+        MainWindow.setMenuBar(self.menubar)
+        self.statusbar = QtWidgets.QStatusBar(MainWindow)
+        self.statusbar.setObjectName("statusbar")
+        MainWindow.setStatusBar(self.statusbar)
 
-                but_item = QtWidgets.QPushButton("Открыть")
-                self.scrollAreaWidgetContents.addWidget(but_item, j, k + 1, 1, 1)
-                #but_item.clicked.connect(lambda state, row=id: open_check(row))
-                but_item = QtWidgets.QPushButton("Удалить")
-                self.scrollAreaWidgetContents.addWidget(but_item, j, k + 2, 1, 1)
-                but_item.clicked.connect(lambda state, row=id: delete_dogovor(row))
-            k += 1
-            if k % 3 == 0:
-                j += 1
-                k = 0
-
-        def delete_dogovor(id):
-            data = (id)
-            query = "delete from dogovor where number=%s;"
-
-            cursor.execute(query, data)
-            cnx.commit()
-        '''
+        self.pushButton_2.setText("Добавить")
+        self.pushButton_3.setText("Отмена")
+        self.pushButton_2.clicked.connect(self.setupadminisUi)
 
     def setupworkersUi(self):
         MainWindow.setObjectName("MainWindow")
@@ -439,7 +437,6 @@ class Ui_MainWindow(object):
         query = "select plan from prodav;"
         cursor.execute()
 
-
     def setupLoginUi(self):
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(449, 315)
@@ -720,64 +717,30 @@ class Ui_MainWindow(object):
 
         self.pushButton_6.clicked.connect(self.addorderui)
 
-        global db_login, db_host, db_pass
+        first_column = ['100001', '100002']
+        second_column = ['26-12-2018', '23-01-2019']
+        third_column = ['Пушкина 8', 'Колотушкина 9']
 
-        cnx = mysql.connector.connect(user='root', password=db_pass,
-                                      host=db_host,
-                                      database='aiskom')
-        cursor = cnx.cursor()
-
-        query = "select FIO from prodav where id_prodav=%s"
-        data = (db_login,)
-        cursor.execute(query, data)
-
-        for (FIO) in cursor:
-            self.workerlabel.setText("Вы авторизованы как: " + str(FIO[0]))
-
-        query = "select name from torgtoch,prodav where id_prodav=%s and torgtoch.id_torgtoch=prodav.id_torgtoch;"
-        data = (db_login,)
-        cursor.execute(query, data)
-        for item in query:
-            for value in item:
-                self.label_2.setText("Магазин: " + str(value))
-
-        query = "select id_zakaz,date_zakaz from zakaz where id_prodav=%s;"
-        data = (db_login, )
-        cursor.execute(query, data)
-
-        j = 0
-        k = 0
-        for item in query:
-            for value in item:
-                if j == 0:
-                    j += 1
-                    continue
-                if k == 0:
-                    line_item = QtWidgets.QLabel(str(value))
-                    id = str(value)
-                    self.scrollAreaWidgetContents.addWidget(line_item, j, k, 1, 1)
-                    k += 1
-                    continue
-                line_item = QtWidgets.QLineEdit(str(value))
-                self.scrollAreaWidgetContents.addWidget(line_item, j, k, 1, 1)
-
-                but_item = QtWidgets.QPushButton("Удалить")
-                self.scrollAreaWidgetContents.addWidget(but_item, j, k + 2, 1, 1)
-                but_item.clicked.connect(lambda state, row=id: delete_sell(row))
-                but_item = QtWidgets.QPushButton("Открыть")
-                self.scrollAreaWidgetContents.addWidget(but_item, j, k + 2, 1, 1)
-                but_item.clicked.connect(lambda state, row=id: open_sell(row))
-            k += 1
-            if k % 2 == 0:
-                j += 1
-                k = 0
+        i = 0
+        for item in first_column:
+            line_item = QtWidgets.QLabel(str(item))
+            self.gridLayout_2.addWidget(line_item, i, 1, 1, 1)
+            i += 1
+        i = 0
+        for item in second_column:
+            line_item = QtWidgets.QLabel(str(item))
+            self.gridLayout_2.addWidget(line_item, i, 2, 1, 1)
+            i += 1
+        i = 0
+        for item in third_column:
+            line_item = QtWidgets.QLabel(str(item))
+            self.gridLayout_2.addWidget(line_item, i, 3, 1, 1)
+            line_item = QtWidgets.QPushButton("Удалить")
+            self.gridLayout_2.addWidget(line_item, i, 4, 1, 1)
+            i += 1
 
         def delete_sell(id):
             data = (id)
-            query = "delete from zakaz where id_zakaz=%s;"
-
-            cursor.execute(query, data)
-            cnx.commit()
 
         def open_sell(id):
             print(1)
