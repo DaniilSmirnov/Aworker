@@ -13,6 +13,9 @@ first_column_dog = ['100001', '100002']
 second_column_dog = ['26-12-2018', '23-01-2019']
 third_column_dog = ['Пушкина 8', 'Колотушкина 9']
 
+first_column_chek = ['110001', '110002']
+second_column_chek = ['26-12-2018', '23-01-2019']
+
 class Ui_MainWindow(object):
     def setupadminisUi(self):
         MainWindow.setObjectName("MainWindow")
@@ -99,7 +102,7 @@ class Ui_MainWindow(object):
 
         i = 0
         for item in first_column_dog:
-            line_item = QtWidgets.QLineEdit(str(item))
+            line_item = QtWidgets.QLabel(str(item))
             self.gridLayout_2.addWidget(line_item, i, 1, 1, 1)
             i += 1
         i = 0
@@ -905,53 +908,31 @@ class Ui_MainWindow(object):
         self.pushButton.setText(_translate("checkui", "Открыть"))
         self.pushButton_2.setText(_translate("checkui", "Удалить"))
 
-        self.pushButton_6.clicked.connect(self.openaddcheckui)
+        self.pushButton_6.clicked.connect(lambda: add())
 
-        query = "select id_prodazh, date from prodazha;"
+        def add():
+             first_column_chek.append('110003')
+             second_column_chek.append('24-01-2019')
+             self.setupaddcheckUi()
 
-        cursor.execute(query)
-
-        k = 0
-        j = 0
         i = 0
-        for item in query:
-            for value in item:
-                if j == 0:
-                    j += 1
-                    continue
-                if k == 0:
-                    line_item = QtWidgets.QLabel(str(value))
-                    id = str(value)
-                    self.scrollAreaWidgetContents.addWidget(line_item, j, k, 1, 1)
-                    k += 1
-                    continue
-                line_item = QtWidgets.QLineEdit(str(value))
-                self.scrollAreaWidgetContents.addWidget(line_item, j, k, 1, 1)
+        for item in first_column_chek:
+            line_item = QtWidgets.QLabel(str(item))
+            self.gridLayout_2.addWidget(line_item, i, 1, 1, 1)
+            i += 1
+        i = 0
+        for item in second_column_chek:
+            line_item = QtWidgets.QLineEdit(str(item))
+            self.gridLayout_2.addWidget(line_item, i, 2, 1, 1)
+            line_item = QtWidgets.QPushButton("Удалить")
+            line_item.clicked.connect(lambda state, row = i: delete(row))
+            self.gridLayout_2.addWidget(line_item, i, 3, 1, 1)
+            i += 1
 
-                but_item = QtWidgets.QPushButton("Открыть")
-                self.scrollAreaWidgetContents.addWidget(but_item, j, k + 1, 1, 1)
-                but_item.clicked.connect(lambda state, row=id: open_check(row))
-                but_item = QtWidgets.QPushButton("Удалить")
-                self.scrollAreaWidgetContents.addWidget(but_item, j, k + 2, 1, 1)
-                but_item.clicked.connect(lambda state, row=id: delete_check(row))
-            k += 1
-            if k % 2 == 0:
-                j += 1
-                i += 1
-                k = 0
-
-        def open_check(id):
-            Authorization = QtWidgets.QDialog()
-            ui = Ui_MainWindow()
-            ui.setupcheckUi(Authorization)
-            Authorization.exec_()
-
-        def delete_check(id):
-            data = (id)
-            query = "delete from prodazha where id_prodazh=%s;"
-
-            cursor.execute(query, data)
-            cnx.commit()
+        def delete(row):
+            first_column_chek.pop(row)
+            second_column_chek.pop(row)
+            self.setupcheckUi()
 
     def setupaddcheckUi(self, administrator):
         administrator.setObjectName("administrator")
@@ -996,29 +977,7 @@ class Ui_MainWindow(object):
         self.pushButton.setText(_translate("administrator", "Ок"))
         self.pushButton_2.setText(_translate("administrator", "Отмена"))
 
-        self.pushButton.clicked.connect(self.addcheck)
-        self.pushButton_2.clicked.connect(self.close)
-
-    def addcheck(self):
-
-        global db_login
-
-        cnx = mysql.connector.connect(user='root', password='i130813',
-                                      host='127.0.0.1',
-                                      database='aiskom')
-        cursor = cnx.cursor()
-
-        if self.lineEdit.text() != "" and self.lineEdit_2.text() != "" and self.lineEdit_3.text() != "" and self.lineEdit_4.text() != "":
-            data = (self.lineEdit.text(), self.lineEdit_2.text(), self.lineEdit_3.text(), self.lineEdit_4.text())
-            query = " insert into prodazha(id_prodav, date, day_week) values(%s, %s, %s);"
-            cursor.execute(query, data)
-            cnx.commit()
-
-    def openaddcheckui(self):
-        Authorization = QtWidgets.QDialog()
-        ui = Ui_MainWindow()
-        ui.setupaddcheckUi(Authorization)
-        Authorization.exec_()
+        self.pushButton.clicked.connect(self.setupcheckUi)
 
     def setupcheckviewUi(self, administrator):
         administrator.setObjectName("administrator")
