@@ -99,6 +99,7 @@ class Ui_MainWindow(object):
 
         self.pushButton_3.clicked.connect(self.setupworkersUi)
         self.pushButton_6.clicked.connect(lambda: add())
+        self.pushButton_9.clicked.connect(self.openotchet)
 
         def add():
              first_column_dog.append('100003')
@@ -411,9 +412,6 @@ class Ui_MainWindow(object):
         self.pushButton = QtWidgets.QPushButton(Authorization)
         self.pushButton.setObjectName("pushButton")
         self.gridLayout.addWidget(self.pushButton, 6, 1, 1, 1)
-        self.pushButton_2 = QtWidgets.QPushButton(Authorization)
-        self.pushButton_2.setObjectName("pushButton_2")
-        self.gridLayout.addWidget(self.pushButton_2, 6, 2, 1, 1)
 
         self.retranslateUi(Authorization)
         QtCore.QMetaObject.connectSlotsByName(Authorization)
@@ -424,27 +422,27 @@ class Ui_MainWindow(object):
         self.label_3.setText(_translate("Authorization", "Формирование отчета"))
         self.label_4.setText(_translate("Authorization", "Статистика за период"))
         self.label.setText(_translate("Authorization", "С:"))
-        self.lineEdit_2.setText(_translate("Authorization", "12.04.1996"))
+        self.lineEdit_2.setText(_translate("Authorization", "1-12-2018"))
         self.label_2.setText(_translate("Authorization", "По:"))
-        self.lineEdit.setText(_translate("Authorization", "13.05.1997"))
+        self.lineEdit.setText(_translate("Authorization", "1-2-2019"))
         self.label_5.setText(_translate("Authorization", "Магазин:"))
         self.lineEdit_3.setText(_translate("Authorization", "Контрольная точка №2"))
-        self.pushButton.setText(_translate("Authorization", "Товары"))
-        self.pushButton_2.setText(_translate("Authorization", "Продавцы"))
+        self.pushButton.setText(_translate("Authorization", "Продавцы"))
 
         self.pushButton.clicked.connect(self.otchettovary)
 
     def otchettovary(self):
 
-        global db_login, db_host, db_pass
+        document = Document()
+        document.add_heading('Отчет по продавцу Клавдин Сергей Анатольевич', 0)
+        p = document.add_paragraph("Число продаж: 3")
+        p = document.add_paragraph("На сумму: 48000")
+        document.add_page_break()
+        document.save('Отчет по продавцу.docx')
 
-        cnx = mysql.connector.connect(user='root', password=db_pass,
-                                      host=db_host,
-                                      database='aiskom')
-        cursor = cnx.cursor()
 
-        query = "select plan from prodav;"
-        cursor.execute()
+
+
 
     def setupLoginUi(self):
         MainWindow.setObjectName("MainWindow")
@@ -542,7 +540,7 @@ class Ui_MainWindow(object):
                 db_login = self.lineEdit.text()
 
             except BaseException:
-                self.label_6.setText("<html><head/><body><p><span style=\" color:#ff0000;\">Проверьте правильность введеных данных</span></p></body></html>")
+                self.label_6.setText("<html><head/><body><p><span style=\" color:#ff0000;\">Проверьте правильность введеных данных!!</span></p></body></html>")
 
             try:
                 query = "select password from uspas where login= %s"
@@ -556,9 +554,7 @@ class Ui_MainWindow(object):
                             self.setuporderUi()
 
             except BaseException:
-               self.label_6.setText("<html><head/><body><p><span style=\" color:#ff0000;\">Проверьте правильность введеных данных</span></p></body></html>")
-
-
+               self.label_6.setText("<html><head/><body><p><span style=\" color:#ff0000;\">Проверьте правильность введеных данных!</span></p></body></html>")
 
         else:
             self.label_6.setText(
@@ -644,9 +640,6 @@ class Ui_MainWindow(object):
         self.label_2 = QtWidgets.QLabel(self.centralwidget)
         self.label_2.setObjectName("label_2")
         self.gridLayout.addWidget(self.label_2, 0, 1, 1, 4)
-        self.pushButton_9 = QtWidgets.QPushButton(self.centralwidget)
-        self.pushButton_9.setObjectName("pushButton_9")
-        self.gridLayout.addWidget(self.pushButton_9, 1, 3, 1, 3)
         self.label_3 = QtWidgets.QLabel(self.centralwidget)
         self.label_3.setObjectName("label_3")
         self.gridLayout.addWidget(self.label_3, 1, 0, 1, 3)
@@ -676,18 +669,6 @@ class Ui_MainWindow(object):
         self.scrollAreaWidgetContents.setObjectName("scrollAreaWidgetContents")
         self.gridLayout_2 = QtWidgets.QGridLayout(self.scrollAreaWidgetContents)
         self.gridLayout_2.setObjectName("gridLayout_2")
-        self.lineEdit = QtWidgets.QLineEdit(self.scrollAreaWidgetContents)
-        self.lineEdit.setObjectName("lineEdit")
-        self.gridLayout_2.addWidget(self.lineEdit, 0, 0, 1, 1)
-        self.lineEdit_2 = QtWidgets.QLineEdit(self.scrollAreaWidgetContents)
-        self.lineEdit_2.setObjectName("lineEdit_2")
-        self.gridLayout_2.addWidget(self.lineEdit_2, 0, 1, 1, 1)
-        self.lineEdit_3 = QtWidgets.QLineEdit(self.scrollAreaWidgetContents)
-        self.lineEdit_3.setObjectName("lineEdit_3")
-        self.gridLayout_2.addWidget(self.lineEdit_3, 0, 2, 1, 1)
-        self.lineEdit_4 = QtWidgets.QLineEdit(self.scrollAreaWidgetContents)
-        self.lineEdit_4.setObjectName("lineEdit_4")
-        self.gridLayout_2.addWidget(self.lineEdit_4, 0, 3, 1, 1)
         self.scrollArea.setWidget(self.scrollAreaWidgetContents)
         self.gridLayout.addWidget(self.scrollArea, 3, 0, 1, 8)
         MainWindow.setCentralWidget(self.centralwidget)
@@ -707,7 +688,6 @@ class Ui_MainWindow(object):
         orderui.setWindowTitle(_translate("orderui", "MainWindow"))
         self.workerlabel.setText(_translate("orderui", "Вы авторизованы как:"))
         #self.label_2.setText(_translate("orderui", "администратор"))
-        self.pushButton_9.setText(_translate("orderui", "Сформировать отчет"))
         self.label_3.setText(_translate("orderui", "<html><head/><body><p><span style=\" font-size:12pt;\">Список заказов:</span></p></body></html>"))
         self.pushButton_4.setText(_translate("orderui", "Закрыть"))
         self.labelorderdate.setText(_translate("orderui", "Дата заказа"))
@@ -723,7 +703,7 @@ class Ui_MainWindow(object):
             second_column_ord.append('24-01-2019')
             third_column_ord.append('1')
             four_column_ord.append('30000')
-            self.setupaddorderui()
+            self.setupaddorderUi()
 
         i = 0
         for item in first_column_ord:
@@ -732,12 +712,12 @@ class Ui_MainWindow(object):
             i += 1
         i = 0
         for item in second_column_ord:
-            line_item = QtWidgets.QLabel(str(item))
+            line_item = QtWidgets.QLineEdit(str(item))
             self.gridLayout_2.addWidget(line_item, i, 2, 1, 1)
             i += 1
         i = 0
         for item in third_column_ord:
-            line_item = QtWidgets.QLabel(str(item))
+            line_item = QtWidgets.QLineEdit(str(item))
             self.gridLayout_2.addWidget(line_item, i, 3, 1, 1)
             line_item = QtWidgets.QPushButton("Удалить")
             line_item.clicked.connect(lambda state, row = i: delete(row))
@@ -745,7 +725,7 @@ class Ui_MainWindow(object):
             i += 1
         i = 0
         for item in four_column_ord:
-            line_item = QtWidgets.QLabel(str(item))
+            line_item = QtWidgets.QLineEdit(str(item))
             self.gridLayout_2.addWidget(line_item, i, 4, 1, 1)
             i += 1
 
@@ -755,7 +735,6 @@ class Ui_MainWindow(object):
             third_column_ord.pop(row)
             four_column_ord.pop(row)
             self.setuporderUi()
-
 
     def setupaddorderUi(self):
         MainWindow.setObjectName("MainWindow")
@@ -1019,8 +998,7 @@ if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
     MainWindow = QtWidgets.QMainWindow()
     ui = Ui_MainWindow()
-    ui.setupLoginUi()
+    ui.setupadminisUi()
     MainWindow.show()
     sys.exit(app.exec_())
-
 
