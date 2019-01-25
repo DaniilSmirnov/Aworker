@@ -16,6 +16,12 @@ third_column_dog = ['Пушкина 8', 'Колотушкина 9']
 first_column_chek = ['110001', '110002']
 second_column_chek = ['26-12-2018', '23-01-2019']
 
+first_column_ord = ['120001', '120002']
+second_column_ord = ['26-12-2018', '23-01-2019']
+third_column_ord = ['2', '3']
+four_column_ord = ['10000', '8000']
+
+
 class Ui_MainWindow(object):
     def setupadminisUi(self):
         MainWindow.setObjectName("MainWindow")
@@ -682,12 +688,6 @@ class Ui_MainWindow(object):
         self.lineEdit_4 = QtWidgets.QLineEdit(self.scrollAreaWidgetContents)
         self.lineEdit_4.setObjectName("lineEdit_4")
         self.gridLayout_2.addWidget(self.lineEdit_4, 0, 3, 1, 1)
-        self.pushButton = QtWidgets.QPushButton(self.scrollAreaWidgetContents)
-        self.pushButton.setObjectName("pushButton")
-        self.gridLayout_2.addWidget(self.pushButton, 0, 4, 1, 1)
-        self.pushButton_2 = QtWidgets.QPushButton(self.scrollAreaWidgetContents)
-        self.pushButton_2.setObjectName("pushButton_2")
-        self.gridLayout_2.addWidget(self.pushButton_2, 0, 5, 1, 1)
         self.scrollArea.setWidget(self.scrollAreaWidgetContents)
         self.gridLayout.addWidget(self.scrollArea, 3, 0, 1, 8)
         MainWindow.setCentralWidget(self.centralwidget)
@@ -715,62 +715,52 @@ class Ui_MainWindow(object):
         self.label_5.setText(_translate("orderui", "Кол-во товара"))
         self.label_4.setText(_translate("orderui", "Номер заказа"))
         self.label_7.setText(_translate("orderui", "Стоимость"))
-        self.pushButton.setText(_translate("orderui", "Открыть"))
-        self.pushButton_2.setText(_translate("orderui", "Удалить"))
 
-        self.pushButton_6.clicked.connect(self.addorderui)
+        self.pushButton_6.clicked.connect(lambda: add())
 
-        first_column = ['100001', '100002']
-        second_column = ['26-12-2018', '23-01-2019']
-        third_column = ['Пушкина 8', 'Колотушкина 9']
+        def add():
+            first_column_ord.append('120003')
+            second_column_ord.append('24-01-2019')
+            third_column_ord.append('1')
+            four_column_ord.append('30000')
+            self.setupaddorderui()
 
         i = 0
-        for item in first_column:
+        for item in first_column_ord:
             line_item = QtWidgets.QLabel(str(item))
             self.gridLayout_2.addWidget(line_item, i, 1, 1, 1)
             i += 1
         i = 0
-        for item in second_column:
+        for item in second_column_ord:
             line_item = QtWidgets.QLabel(str(item))
             self.gridLayout_2.addWidget(line_item, i, 2, 1, 1)
             i += 1
         i = 0
-        for item in third_column:
+        for item in third_column_ord:
             line_item = QtWidgets.QLabel(str(item))
             self.gridLayout_2.addWidget(line_item, i, 3, 1, 1)
             line_item = QtWidgets.QPushButton("Удалить")
+            line_item.clicked.connect(lambda state, row = i: delete(row))
+            self.gridLayout_2.addWidget(line_item, i, 5, 1, 1)
+            i += 1
+        i = 0
+        for item in four_column_ord:
+            line_item = QtWidgets.QLabel(str(item))
             self.gridLayout_2.addWidget(line_item, i, 4, 1, 1)
             i += 1
 
-        def delete_sell(id):
-            data = (id)
+        def delete(row):
+            first_column_ord.pop(row)
+            second_column_ord.pop(row)
+            third_column_ord.pop(row)
+            four_column_ord.pop(row)
+            self.setuporderUi()
 
-        def open_sell(id):
-            print(1)
 
-    def addorderui(self):
-        Authorization = QtWidgets.QDialog()
-        ui = Ui_MainWindow()
-        ui.setupaddorderUi(Authorization)
-        Authorization.exec_()
-
-    def addorder(self):
-        global db_login
-
-        cnx = mysql.connector.connect(user='root', password='i130813',
-                                      host='127.0.0.1',
-                                      database='aiskom')
-        cursor = cnx.cursor()
-        if self.lineEdit.text() != "" and self.lineEdit_2.text() != "":
-            data = (self.lineEdit.text(), self.lineEdit_2.text())
-            query = "insert into zakaz(date_zakaz,id_prodav) values(%s, %s);"
-            cursor.execute(query, data)
-            cnx.commit()
-
-    def setupaddorderUi(self, administrator):
-        administrator.setObjectName("administrator")
-        administrator.resize(260, 211)
-        self.centralwidget = QtWidgets.QWidget(administrator)
+    def setupaddorderUi(self):
+        MainWindow.setObjectName("MainWindow")
+        MainWindow.resize(260, 211)
+        self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.verticalLayout = QtWidgets.QVBoxLayout(self.centralwidget)
         self.verticalLayout.setObjectName("verticalLayout")
@@ -786,26 +776,18 @@ class Ui_MainWindow(object):
         self.pushButton_2 = QtWidgets.QPushButton(self.centralwidget)
         self.pushButton_2.setObjectName("pushButton_2")
         self.verticalLayout.addWidget(self.pushButton_2)
-        administrator.setCentralWidget(self.centralwidget)
-        self.menubar = QtWidgets.QMenuBar(administrator)
+        MainWindow.setCentralWidget(self.centralwidget)
+        self.menubar = QtWidgets.QMenuBar(MainWindow)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 260, 20))
         self.menubar.setObjectName("menubar")
-        administrator.setMenuBar(self.menubar)
-        self.statusbar = QtWidgets.QStatusBar(administrator)
+        MainWindow.setMenuBar(self.menubar)
+        self.statusbar = QtWidgets.QStatusBar(MainWindow)
         self.statusbar.setObjectName("statusbar")
-        administrator.setStatusBar(self.statusbar)
+        MainWindow.setStatusBar(self.statusbar)
 
-        self.retranslateaddorderUi(administrator)
-        QtCore.QMetaObject.connectSlotsByName(administrator)
-
-    def retranslateaddorderUi(self, administrator):
-        _translate = QtCore.QCoreApplication.translate
-        administrator.setWindowTitle(_translate("administrator", "Dialog"))
-        self.pushButton.setText(_translate("administrator", "Ок"))
-        self.pushButton_2.setText(_translate("administrator", "Отмена"))
-
-        self.pushButton.clicked.connect(self.addcheck)
-        self.pushButton_2.clicked.connect(self.close)
+        self.pushButton.setText("Добавить")
+        self.pushButton_2.setText("Отмена")
+        self.pushButton.clicked.connect(self.setuporderUi)
 
     def setupcheckUi(self, checkui):
         checkui.setObjectName("adminis")
